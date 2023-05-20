@@ -104,3 +104,5 @@ rozgrywki.symuluj_wyniki(druzyna2, "dwa_ognie")
 
 # Organizowanie półfinałów
 rozgrywki.organizuj_polfinaly("dwa_ognie")
+
+
