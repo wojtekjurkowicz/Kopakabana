@@ -1,5 +1,7 @@
 import random
-#from zawodnicy import Druzyna, Zawodnik
+
+from projekt.zawodnicy import Druzyna
+
 
 class Rozgrywki:
     def __init__(self):
@@ -14,6 +16,11 @@ class Rozgrywki:
             "przeciaganie_liny": []
         }
         self.wyniki = {
+            "siatkowka_plazowa": [],
+            "dwa_ognie": [],
+            "przeciaganie_liny": []
+        }
+        self.polfinaly = {
             "siatkowka_plazowa": [],
             "dwa_ognie": [],
             "przeciaganie_liny": []
@@ -44,10 +51,56 @@ class Rozgrywki:
 
     def symuluj_wyniki(self, druzyna, dyscyplina):
         for mecz in self.mecze[dyscyplina]:
-            self.wyniki[dyscyplina].append(random.choice(mecz))
-        for wynik in self.wyniki[dyscyplina]:
-            if self.wyniki[dyscyplina][wynik] == druzyna.nazwa:
+            wynik_meczu = random.choice(mecz)
+            self.wyniki[dyscyplina].append(wynik_meczu)
+            if wynik_meczu == druzyna:
                 druzyna.dodaj_punkt(dyscyplina)
 
     def organizuj_polfinaly(self, dyscyplina):
-        self.druzyny[dyscyplina].sort()
+        if len(self.druzyny[dyscyplina]) > 3:
+            druzyny = self.druzyny[dyscyplina]
+            druzyny.sort(key=lambda druzyna: druzyna.punkty[dyscyplina], reverse=True)
+            polfinaly = druzyny[:4]
+            self.polfinaly[dyscyplina] = polfinaly
+
+
+
+druzyna1 = Druzyna("FC Po Nalewce")
+druzyna1.zglos_zawodnika("Wojtek Jurkowicz")
+druzyna1.zglos_zawodnika("Adam Kowalski")
+druzyna1.zglos_zawodnika("Adam Nowak")
+druzyna1.zglos_zawodnika("Adam Kowal")
+druzyna1.zglos_zawodnika("Jozef Kowal")
+druzyna1.zglos_zawodnika("Andrzej Kowal")
+druzyna1.wycofaj_zawodnika("Adam Nowak")
+druzyna1.zglos_zawodnika("Mateusz Ziom")
+
+
+druzyna2 = Druzyna("Orły Spod Budki")
+druzyna2.zglos_zawodnika("Mateusz Ziom")
+druzyna2.zglos_zawodnika("Piotr Nowak")
+druzyna2.zglos_zawodnika("Marcin Kowalski")
+druzyna2.zglos_zawodnika("Jan Nowak")
+druzyna2.zglos_zawodnika("Kamil Kowal")
+druzyna2.zglos_zawodnika("Bartek Kowal")
+
+
+# Tworzenie rozgrywek
+rozgrywki = Rozgrywki()
+
+# Dodawanie drużyn do rozgrywek
+rozgrywki.dodaj_druzyne(druzyna1)
+rozgrywki.dodaj_druzyne(druzyna2)
+
+# Wyświetlanie drużyn w rozgrywkach
+rozgrywki.przeglad_druzyn()
+
+# Tworzenie meczy
+rozgrywki.utworz_spotkania("dwa_ognie")
+
+# Symulacja wyników
+rozgrywki.symuluj_wyniki(druzyna1, "dwa_ognie")
+rozgrywki.symuluj_wyniki(druzyna2, "dwa_ognie")
+
+# Organizowanie półfinałów
+rozgrywki.organizuj_polfinaly("dwa_ognie")

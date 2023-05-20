@@ -35,18 +35,3 @@ class Druzyna:
 
     def przeglad_druzyny(self):
         return f"{self.nazwa}: {self.lista_zawodnikow}"
-
-druzyna = Druzyna("FC Po Nalewce")
-druzyna.zglos_zawodnika("Wojtek Jurkowicz")
-druzyna.zglos_zawodnika("Adam Kowalski")
-druzyna.zglos_zawodnika("Adam Nowak")
-druzyna.zglos_zawodnika("Adam Kowal")
-druzyna.zglos_zawodnika("Jozef Kowal")
-druzyna.zglos_zawodnika("Andrzej Kowal")
-druzyna.wycofaj_zawodnika("Adam Nowak")
-druzyna.zglos_zawodnika("Mateusz Ziom")
-print(druzyna.przeglad_druzyny())
-print(druzyna.punkty)
-druzyna.dodaj_punkt("dwa_ognie")
-druzyna.dodaj_punkt("dwa_ognie")
-print(druzyna.punkty)
