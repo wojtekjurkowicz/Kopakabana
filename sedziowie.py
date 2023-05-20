@@ -1,4 +1,4 @@
-class Kolegium:
+class Sedziowie:
     def __init__(self):
         self.lista_sedziow = []
 
@@ -22,3 +22,4 @@ class Sedzia:
 
     def __str__(self):
         return f"{self.imie} {self.nazwisko}"
+
