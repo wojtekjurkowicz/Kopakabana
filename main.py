@@ -1,2 +1,2 @@
-print("huj")
+print("grzib")
 print("penis")

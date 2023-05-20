@@ -1,9 +1,13 @@
 import random
-from zawodnicy import Druzyna, Zawodnik
+#from zawodnicy import Druzyna, Zawodnik
 
 class Rozgrywki:
     def __init__(self):
-        self.druzyny = []
+        self.druzyny = {
+            "siatkowka_plazowa": [],
+            "dwa_ognie": [],
+            "przeciaganie_liny": []
+        }
         self.mecze = {
             "siatkowka_plazowa": [],
             "dwa_ognie": [],
@@ -19,20 +23,21 @@ class Rozgrywki:
         if len(druzyna.lista_zawodnikow) < 6:
             return f"Za malo zawodnikow!"
         else:
-            self.druzyny.append(druzyna)
+            for i in self.druzyny:
+                self.druzyny[i].append(druzyna)
 
     def przeglad_druzyn(self):
-        for druzyna in self.druzyny:
+        for druzyna in self.druzyny["dwa_ognie"]:
             print(druzyna.nazwa, druzyna.lista_zawodnikow)
 
     def utworz_spotkania(self, dyscyplina):
-        for i in range(len(self.druzyny)):
-            for j in range(len(self.druzyny)):
+        for i in range(len(self.druzyny[dyscyplina])):
+            for j in range(len(self.druzyny[dyscyplina])):
                 if (i == j) \
-                        or (self.druzyny[i] in self.mecze[dyscyplina]) and (self.druzyny[j] in self.mecze[dyscyplina]):
+                        or (self.druzyny[dyscyplina][i] in self.mecze[dyscyplina]) and (self.druzyny[dyscyplina][j] in self.mecze[dyscyplina]):
                     pass
                 else:
-                    mecz = [self.druzyny[i], self.druzyny[j]]
+                    mecz = [self.druzyny[dyscyplina][i], self.druzyny[dyscyplina][j]]
                     self.mecze[dyscyplina].append(mecz)
 
         random.shuffle(self.mecze[dyscyplina])
@@ -45,4 +50,4 @@ class Rozgrywki:
                 druzyna.dodaj_punkt(dyscyplina)
 
     def organizuj_polfinaly(self, dyscyplina):
-        for
+        self.druzyny[dyscyplina].sort()
