@@ -1,10 +1,13 @@
 import random
 
-from projekt.zawodnicy import Druzyna
+from zawodnicy import Druzyna
+from sedziowie import Sedziowie
 
 
 class Rozgrywki:
     def __init__(self):
+        self.sedziowie = Sedziowie()
+        self.lista_sedziow = self.sedziowie.sedziowie()
         self.druzyny = {
             "siatkowka_plazowa": [],
             "dwa_ognie": [],
@@ -41,13 +44,15 @@ class Rozgrywki:
         for i in range(len(self.druzyny[dyscyplina])):
             for j in range(len(self.druzyny[dyscyplina])):
                 if (i == j) \
-                        or (self.druzyny[dyscyplina][i] in self.mecze[dyscyplina]) and (self.druzyny[dyscyplina][j] in self.mecze[dyscyplina]):
+                        or any((self.druzyny[dyscyplina][i].nazwa in mecz) and \
+                               (self.druzyny[dyscyplina][j].nazwa in mecz) for mecz in self.mecze[dyscyplina]):
                     pass
                 else:
-                    mecz = [self.druzyny[dyscyplina][i], self.druzyny[dyscyplina][j]]
+                    mecz = [self.druzyny[dyscyplina][i].nazwa, self.druzyny[dyscyplina][j].nazwa]
                     self.mecze[dyscyplina].append(mecz)
 
         random.shuffle(self.mecze[dyscyplina])
+        self.mecze[dyscyplina] = [random.choice(self.lista_sedziow), self.mecze[dyscyplina]]
 
     def symuluj_wyniki(self, druzyna, dyscyplina):
         for mecz in self.mecze[dyscyplina]:
@@ -64,7 +69,6 @@ class Rozgrywki:
             self.polfinaly[dyscyplina] = polfinaly
 
 
-
 druzyna1 = Druzyna("FC Po Nalewce")
 druzyna1.zglos_zawodnika("Wojtek Jurkowicz")
 druzyna1.zglos_zawodnika("Adam Kowalski")
@@ -75,7 +79,6 @@ druzyna1.zglos_zawodnika("Andrzej Kowal")
 druzyna1.wycofaj_zawodnika("Adam Nowak")
 druzyna1.zglos_zawodnika("Mateusz Ziom")
 
-
 druzyna2 = Druzyna("Orły Spod Budki")
 druzyna2.zglos_zawodnika("Mateusz Ziom")
 druzyna2.zglos_zawodnika("Piotr Nowak")
@@ -83,7 +86,6 @@ druzyna2.zglos_zawodnika("Marcin Kowalski")
 druzyna2.zglos_zawodnika("Jan Nowak")
 druzyna2.zglos_zawodnika("Kamil Kowal")
 druzyna2.zglos_zawodnika("Bartek Kowal")
-
 
 # Tworzenie rozgrywek
 rozgrywki = Rozgrywki()
@@ -95,8 +97,13 @@ rozgrywki.dodaj_druzyne(druzyna2)
 # Wyświetlanie drużyn w rozgrywkach
 rozgrywki.przeglad_druzyn()
 
+# Dodawanie sędziów do listy sędziów
+rozgrywki.lista_sedziow.extend(["Sędzia 1", "Sędzia 2", "Sędzia 3", "Sędzia 4"])
+print(rozgrywki.lista_sedziow)
+
 # Tworzenie meczy
 rozgrywki.utworz_spotkania("dwa_ognie")
+print(rozgrywki.mecze)
 
 # Symulacja wyników
 rozgrywki.symuluj_wyniki(druzyna1, "dwa_ognie")
@@ -104,5 +111,3 @@ rozgrywki.symuluj_wyniki(druzyna2, "dwa_ognie")
 
 # Organizowanie półfinałów
 rozgrywki.organizuj_polfinaly("dwa_ognie")
-
-
