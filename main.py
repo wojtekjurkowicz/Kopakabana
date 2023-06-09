@@ -29,7 +29,7 @@ sedziowie.dodaj_sedziego(sedzia7)
 druzyny = []
 lista_sedziow = sedziowie.lista_sedziow
 # Tworzenie drużyn
-for i in range(16):
+for i in range(8):
     nazwa_druzyny = f"Drużyna {i+1}"
     druzyna = Druzyna(nazwa_druzyny)
     for j in range(6):

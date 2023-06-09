@@ -1,3 +1,4 @@
+from zawodnicy import Osoba
 class Sedziowie:
     def __init__(self):
         self.lista_sedziow = []
@@ -11,14 +12,12 @@ class Sedziowie:
         else:
             return f"Nie ma takiego sedziego jak {sedzia}"
 
-    def sedziowie(self):
-        return self.lista_sedziow
+    def __repr__(self):
+        return repr(self.lista_sedziow)
 
 
-class Sedzia:
+class Sedzia(Osoba):
     def __init__(self, imie, nazwisko):
-        self.imie = imie
-        self.nazwisko = nazwisko
+        super().__init__(imie, nazwisko)
 
-    def __str__(self):
-        return f"{self.imie} {self.nazwisko}"
+    super().__str__()
