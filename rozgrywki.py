@@ -7,6 +7,9 @@ class Rozgrywki:
         self.druzyny = []
         self.mecze = []
         self.wyniki = []
+        self.polfinalisci = []
+        self.finaly = []
+        self.zwyciezca = None
         """self.druzyny = {
             "siatkowka_plazowa": [],
             "dwa_ognie": [],
@@ -79,29 +82,34 @@ class Rozgrywki:
                 druzyna.dodaj_punkt(dyscyplina)
 
 
-
     def organizuj_polfinaly(self, dyscyplina):
         if len(self.druzyny[dyscyplina]) > 3:
             druzyny = self.druzyny[dyscyplina]
             druzyny.sort(key=lambda druzyna: druzyna.punkty[dyscyplina], reverse=True)
-            polfinaly = druzyny[:4]
-            self.polfinaly[dyscyplina] = polfinaly
-            print(self.polfinaly)
-        # wyniki półfinałów
+            polfinalisci = druzyny[:4]
+            random.shuffle(polfinalisci)
+            self.polfinalisci = polfinalisci
+            print(self.polfinalisci)
+        # wyniki półfinałów tutaj trzeba kurwa cos pozmieniac
         for mecz in self.polfinaly[dyscyplina]:
-            finalista = self.symuluj_wyniki(druzyna, dyscyplina)
+            finalista = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
             self.finaly[dyscyplina].append(finalista)
 
+    # tutaj tez whuj
     def organizuj_finaly(self, dyscyplina):
         for mecz in self.finaly[dyscyplina]:
-            zwyciezca = random.choice(mecz)
-            self.zwyciezcy[dyscyplina].append(zwyciezca)
+            zwyciezca = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
+            self.zwyciezca = zwyciezca
 
 class Siatkowka_plazowa(Rozgrywki):
     def __init__(self, lista_sedziow):
         super().__init__(lista_sedziow)
         self.druzyny = []
-
+        self.mecze = []
+        self.wyniki = []
+        self.polfinaly = []
+        self.finaly = []
+        self.zwyciezca = None
 
     def utworz_spotkania(self):
         for i in range(len(self.druzyny)):
@@ -131,13 +139,21 @@ class Dwa_ognie(Rozgrywki):
     def __init__(self, lista_sedziow):
         super().__init__(lista_sedziow)
         self.druzyny = []
+        self.mecze = []
+        self.wyniki = []
+        self.polfinaly = []
+        self.finaly = []
+        self.zwyciezca = None
 
-
-class Przeciaganie_liny:
+class Przeciaganie_liny(Rozgrywki):
     def __init__(self, lista_sedziow):
         super().__init__(lista_sedziow)
         self.druzyny = []
-
+        self.mecze = []
+        self.wyniki = []
+        self.polfinaly = []
+        self.finaly = []
+        self.zwyciezca = None
 
 
 class Wyswietl_wyniki(Rozgrywki):
