@@ -26,8 +26,8 @@ sedziowie.dodaj_sedziego(sedzia6)
 sedzia7 = Sedzia("Magdalena", "Witkowska")
 sedziowie.dodaj_sedziego(sedzia7)
 
+
 druzyny = []
-lista_sedziow = sedziowie.lista_sedziow
 # Tworzenie drużyn
 for i in range(8):
     nazwa_druzyny = f"Drużyna {i+1}"
@@ -39,34 +39,18 @@ for i in range(8):
 
 rozgrywki = Rozgrywki(sedziowie.lista_sedziow)
 
-# Dodawanie drużyn do rozgrywek
 for druzyna in druzyny:
     rozgrywki.dodaj_druzyne(druzyna)
 
-# Utworzenie spotkań dla każdej dyscypliny
-dyscypliny = ["siatkowka_plazowa", "dwa_ognie", "przeciaganie_liny"]
-for dyscyplina in dyscypliny:
-    rozgrywki.utworz_spotkania(dyscyplina)
+rozgrywki.przeglad_druzyn()
 
-# Symulacja wyników dla każdej drużyny w każdej dyscyplinie
-for dyscyplina in dyscypliny:
-    for druzyna in druzyny:
-        rozgrywki.symuluj_wyniki(druzyna, dyscyplina)
+rozgrywki.utworz_spotkania()
 
-# Organizacja półfinałów dla każdej dyscypliny
-for dyscyplina in dyscypliny:
-    rozgrywki.organizuj_polfinaly(dyscyplina)
+rozgrywki.symuluj_wyniki("siatkowka_plazowa")
+rozgrywki.zapisz_punkty("siatkowka_plazowa")
+rozgrywki.symuluj_wyniki("dwa_ognie")
+rozgrywki.symuluj_wyniki("przeciaganie_liny")
 
-# Organizacja finałów dla każdej dyscypliny
-for dyscyplina in dyscypliny:
-    rozgrywki.organizuj_finaly(dyscyplina)
+rozgrywki.organizuj_polfinaly("siatkowka_plazowa")
 
-# Wyświetlanie wyników
-for dyscyplina in dyscypliny:
-    print(f"Wyniki {dyscyplina}:")
-    for i, mecz in enumerate(rozgrywki.finaly[dyscyplina]):
-        print(f"Final {i+1}: {mecz}")
-    print("")
-
-rozgrywki = Wyswietl_wyniki(lista_sedziow)
-rozgrywki.wyswietl_wyniki("siatkowka_plazowa")
+rozgrywki.organizuj_finaly("siatkowka_plazowa")

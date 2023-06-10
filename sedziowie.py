@@ -12,12 +12,14 @@ class Sedziowie:
         else:
             return f"Nie ma takiego sedziego jak {sedzia}"
 
+    def przeglad_sedziow(self):
+        for sedzia in self.lista_sedziow:
+            print(sedzia, end=", ")
     def __repr__(self):
-        return repr(self.lista_sedziow)
+        return str(repr(self.przeglad_sedziow()))
 
 
 class Sedzia(Osoba):
     def __init__(self, imie, nazwisko):
         super().__init__(imie, nazwisko)
 
-    super().__str__()

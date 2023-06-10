@@ -10,8 +10,6 @@ class Zawodnik(Osoba):
     def __init__(self, imie, nazwisko):
         super().__init__(imie, nazwisko)
 
-    super().__str__()
-
 
 class Druzyna:
     def __init__(self, nazwa):
@@ -39,5 +37,9 @@ class Druzyna:
     def dodaj_punkt(self, dyscyplina):
         self.punkty[dyscyplina] += 1
 
+    def przeglad_zawodnikow(self):
+        for zawodnik in self.lista_zawodnikow:
+            print(zawodnik, end=", ")
+
     def __repr__(self):
-        return repr(self.nazwa + ': ' + {self.lista_zawodnikow})
+        return str(repr(self.nazwa)) + ": " + str(repr(self.przeglad_zawodnikow()))
