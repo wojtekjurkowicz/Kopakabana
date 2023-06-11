@@ -97,25 +97,26 @@ class Rozgrywki(ABC):
             random.shuffle(polfinalisci)
             self.polfinalisci = polfinalisci
 
+        for i in range(int(len(self.polfinalisci)/2)):
+            druzyna1 = random.choice(self.polfinalisci)
+            druzyna2 = random.choice(self.polfinalisci)
+            self.polfinalisci.remove(druzyna1)
+            self.polfinalisci.remove(druzyna2)
+            polfinal = {
+                "sedzia": random.choice(self.lista_sedziow),
+                "druzyna1": druzyna1,
+                "druzyna2": druzyna2
+            }
+            self.polfinaly.append(polfinal)
 
-        polfinal1 = {
-            "sedzia": random.choice(self.lista_sedziow),
-            "druzyna1": random.choice(self.polfinalisci),
-            "druzyna2": random.choice(self.polfinalisci)
-        }
-        self.polfinaly.append(polfinal1)
-        polfinal2 = {
-            "sedzia": random.choice(self.lista_sedziow),
-            "druzyna1": random.choice(self.polfinalisci),
-            "druzyna2": random.choice(self.polfinalisci)
-        }
-        self.polfinaly.append(polfinal2)
-        print(self.polfinaly)
+        print("Polfinal 1: ", self.polfinaly[0]["druzyna1"], self.polfinaly[0]["druzyna2"])
+        print("Polfinal 2: ", self.polfinaly[1]["druzyna1"], self.polfinaly[1]["druzyna2"])
 
 
     def organizuj_finaly(self, dyscyplina):
-        for mecz in self.polfinaly:
-            finalista = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
+        for i in range(len(self.polfinaly)):
+            polfinal = self.polfinaly[i]
+            finalista = random.choice([polfinal["druzyna1"], polfinal["druzyna2"]])
             self.finaly.append(finalista)
             print(self.finaly)
 
@@ -128,9 +129,9 @@ class Rozgrywki(ABC):
                 }
                 self.finaly.append(mecz)
 
-        for mecz in self.finaly:
-            zwyciezca = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
-            self.zwyciezca = zwyciezca
+
+        zwyciezca = random.choice([self.finaly[0]["druzyna1"], self.finaly[0]["druzyna2"]])
+        self.zwyciezca = zwyciezca
 
 class Siatkowka_plazowa(Rozgrywki):
     def __init__(self, lista_sedziow):
@@ -228,9 +229,12 @@ class Przeciaganie_liny(Rozgrywki):
 
 
 class Wyswietl_wyniki:
+    def __init__(self, rozgrywki):
+        self.rozgrywki = rozgrywki
+
     def generuj_tablice_wynikow(self):
         tablica = {}
-        for druzyna in Rozgrywki.get_druzyny():
+        for druzyna in self.rozgrywki.get_druzyny():
             tablica[druzyna.nazwa] = {
                 'siatkowka_plazowa': druzyna.punkty['siatkowka_plazowa'],
                 'dwa_ognie': druzyna.punkty['dwa_ognie'],
@@ -238,7 +242,7 @@ class Wyswietl_wyniki:
             }
         return tablica
 
-    def display_results_table(self):
+    def wyswietl_tablice_wynikow(self):
         tablica = self.generuj_tablice_wynikow()
         print("Tablica wynikow:")
         for druzyna, punkty in tablica.items():
