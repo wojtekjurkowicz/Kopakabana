@@ -72,13 +72,13 @@ class Siatkowka_plazowa(Rozgrywki):
                     continue
                 else:
                     sedzia = random.choice(self.lista_sedziow)
-                    sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
+                    sedzia = f"{sedzia.get_imie()} {sedzia.get_nazwisko()}"
                     while True:
                         sedzia_pom1 = random.choice(self.lista_sedziow)
                         if sedzia_pom1 == sedzia:
                             continue
                         else:
-                            sedzia_pom1 = f"{sedzia_pom1.imie} {sedzia_pom1.nazwisko}"
+                            sedzia_pom1 = f"{sedzia_pom1.get_imie()} {sedzia_pom1.get_nazwisko()}"
                             break
 
                     while True:
@@ -86,7 +86,7 @@ class Siatkowka_plazowa(Rozgrywki):
                         if sedzia_pom1 == sedzia_pom2 or sedzia == sedzia_pom2:
                             continue
                         else:
-                            sedzia_pom2 = f"{sedzia_pom2.imie} {sedzia_pom2.nazwisko}"
+                            sedzia_pom2 = f"{sedzia_pom2.get_imie()} {sedzia_pom2.get_nazwisko()}"
                             break
 
                     mecz = {
@@ -164,15 +164,13 @@ class Dwa_ognie(Rozgrywki):
                 ):
                     continue
                 else:
-                    sedzia = random.choice(self.lista_sedziow)
-                    sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
                     mecz = {
-                        "sedzia": sedzia,
+                        "sedzia": random.choice(self.lista_sedziow),
                         "druzyna1": self.druzyny[i].nazwa,
                         "druzyna2": self.druzyny[j].nazwa
                     }
                     self.mecze.append(mecz)
-                    print(mecz)
+                    print(str(mecz))
 
         random.shuffle(self.mecze)
 
@@ -235,10 +233,8 @@ class Przeciaganie_liny(Rozgrywki):
                 ):
                     continue
                 else:
-                    sedzia = random.choice(self.lista_sedziow)
-                    sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
                     mecz = {
-                        "sedzia": sedzia,
+                        "sedzia": random.choice(self.lista_sedziow),
                         "druzyna1": self.druzyny[i].nazwa,
                         "druzyna2": self.druzyny[j].nazwa
                     }

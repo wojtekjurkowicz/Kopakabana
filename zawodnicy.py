@@ -1,10 +1,16 @@
 class Osoba:
     def __init__(self, imie, nazwisko):
-        self.imie = imie
-        self.nazwisko = nazwisko
+        self._imie = imie
+        self._nazwisko = nazwisko
+
+    def get_imie(self):
+        return self._imie
+
+    def get_nazwisko(self):
+        return self._nazwisko
 
     def __str__(self):
-        return f"{self.imie} {self.nazwisko}"
+        return f"{self._imie} {self._nazwisko}"
 
 
 class Zawodnik(Osoba):
@@ -42,13 +48,8 @@ class Druzyna:
     def dodaj_punkt_przeciaganie_liny(self):
         self.punkty_przeciaganie_liny += 1
 
-    def przeglad_zawodnikow(self):
-        print(self.nazwa, end=": ")
-        for zawodnik in self.lista_zawodnikow:
-            print(zawodnik, end=", ")
-
     def __repr__(self):
-        return str(repr(self.przeglad_zawodnikow()))
+        return str([str(zawodnik) for zawodnik in self.lista_zawodnikow])
 
 
 class Sedziowie:
@@ -64,12 +65,8 @@ class Sedziowie:
         else:
             return f"Nie ma takiego sedziego jak {sedzia}"
 
-    def przeglad_sedziow(self):
-        for sedzia in self.lista_sedziow:
-            print(sedzia, end=", ")
-
     def __repr__(self):
-        return str(repr(self.przeglad_sedziow()))
+        return str([str(sedzia) for sedzia in self.lista_sedziow])
 
 
 class Sedzia(Osoba):
