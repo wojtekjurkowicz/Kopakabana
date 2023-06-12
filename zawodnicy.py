@@ -6,6 +6,7 @@ class Osoba:
     def __str__(self):
         return f"{self.imie} {self.nazwisko}"
 
+
 class Zawodnik(Osoba):
     def __init__(self, imie, nazwisko):
         super().__init__(imie, nazwisko)
@@ -70,4 +71,3 @@ class Sedziowie:
 class Sedzia(Osoba):
     def __init__(self, imie, nazwisko):
         super().__init__(imie, nazwisko)
-

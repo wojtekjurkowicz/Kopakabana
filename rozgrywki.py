@@ -70,7 +70,10 @@ class Rozgrywki(ABC):
                 if wynik == druzyna.nazwa:
                     druzyna.dodaj_punkt(dyscyplina)
 
-    def organizuj_polfinaly(self, dyscyplina):
+    @abstractmethod
+    def organizuj_polfinaly(self):
+        pass
+"""
         if len(self.druzyny) > 3:
             druzyny = self.druzyny
             druzyny.sort(key=lambda druzyna: druzyna.punkty[dyscyplina], reverse=True)
@@ -80,8 +83,8 @@ class Rozgrywki(ABC):
 
         for i in range(int(len(self.polfinalisci)/2)):
             druzyna1 = random.choice(self.polfinalisci)
-            druzyna2 = random.choice(self.polfinalisci)
             self.polfinalisci.remove(druzyna1)
+            druzyna2 = random.choice(self.polfinalisci)
             self.polfinalisci.remove(druzyna2)
             polfinal = {
                 "sedzia": random.choice(self.lista_sedziow),
@@ -92,9 +95,12 @@ class Rozgrywki(ABC):
 
         print("Polfinal 1: ", self.polfinaly[0]["druzyna1"], self.polfinaly[0]["druzyna2"])
         print("Polfinal 2: ", self.polfinaly[1]["druzyna1"], self.polfinaly[1]["druzyna2"])
+"""
 
-
-    def organizuj_finaly(self, dyscyplina):
+    @abstractmethod
+    def organizuj_finaly(self):
+        pass
+"""
         for i in range(len(self.polfinaly)):
             polfinal = self.polfinaly[i]
             finalista = random.choice([polfinal["druzyna1"], polfinal["druzyna2"]])
@@ -110,9 +116,9 @@ class Rozgrywki(ABC):
                 }
                 self.finaly.append(mecz)
 
-
         zwyciezca = random.choice([self.finaly[0]["druzyna1"], self.finaly[0]["druzyna2"]])
         self.zwyciezca = zwyciezca
+"""
 
 class Siatkowka_plazowa(Rozgrywki):
     def __init__(self, lista_sedziow):
@@ -138,6 +144,9 @@ class Siatkowka_plazowa(Rozgrywki):
                 else:
                     sedzia = random.choice(self.lista_sedziow)
                     sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
+
+                    sedzia_pom3 = random.choice(self.lista_sedziow)
+                    sedzia_pom3 = f"{sedzia.imie} {sedzia.nazwisko}"
                     while True:
                         sedzia_pom1 = random.choice(self.lista_sedziow)
                         if sedzia_pom1 == sedzia:
