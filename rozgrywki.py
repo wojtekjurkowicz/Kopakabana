@@ -72,13 +72,11 @@ class Siatkowka_plazowa(Rozgrywki):
                     continue
                 else:
                     sedzia = random.choice(self.lista_sedziow)
-                    sedzia = f"{sedzia.get_imie()} {sedzia.get_nazwisko()}"
                     while True:
                         sedzia_pom1 = random.choice(self.lista_sedziow)
                         if sedzia_pom1 == sedzia:
                             continue
                         else:
-                            sedzia_pom1 = f"{sedzia_pom1.get_imie()} {sedzia_pom1.get_nazwisko()}"
                             break
 
                     while True:
@@ -86,13 +84,12 @@ class Siatkowka_plazowa(Rozgrywki):
                         if sedzia_pom1 == sedzia_pom2 or sedzia == sedzia_pom2:
                             continue
                         else:
-                            sedzia_pom2 = f"{sedzia_pom2.get_imie()} {sedzia_pom2.get_nazwisko()}"
                             break
 
                     mecz = {
-                        "sedzia": sedzia,
-                        "sedzia_pom1": sedzia_pom1,
-                        "sedzia_pom2": sedzia_pom2,
+                        "sedzia": str(sedzia),
+                        "sedzia_pom1": str(sedzia_pom1),
+                        "sedzia_pom2": str(sedzia_pom2),
                         "druzyna1": self.druzyny[i].nazwa,
                         "druzyna2": self.druzyny[j].nazwa
                     }
@@ -119,9 +116,9 @@ class Siatkowka_plazowa(Rozgrywki):
         for i in range(len(self.polfinalisci)):
             for j in range(i + 1, len(self.polfinalisci)):
                 mecz = {
-                    "sedzia": random.choice(self.lista_sedziow),
-                    "sedzia_pom1": random.choice(self.lista_sedziow),
-                    "sedzia_pom2": random.choice(self.lista_sedziow),
+                    "sedzia": str(random.choice(self.lista_sedziow)),
+                    "sedzia_pom1": str(random.choice(self.lista_sedziow)),
+                    "sedzia_pom2": str(random.choice(self.lista_sedziow)),
                     "druzyna1": self.polfinalisci[i].nazwa,
                     "druzyna2": self.polfinalisci[j].nazwa
                 }
@@ -133,9 +130,9 @@ class Siatkowka_plazowa(Rozgrywki):
             self.final.append(finalista)
 
         mecz = {
-            "sedzia": random.choice(self.lista_sedziow),
-            "sedzia_pom1": random.choice(self.lista_sedziow),
-            "sedzia_pom2": random.choice(self.lista_sedziow),
+            "sedzia": str(random.choice(self.lista_sedziow)),
+            "sedzia_pom1": str(random.choice(self.lista_sedziow)),
+            "sedzia_pom2": str(random.choice(self.lista_sedziow)),
             "druzyna1": self.final[0],
             "druzyna2": self.final[1]
         }
@@ -165,7 +162,7 @@ class Dwa_ognie(Rozgrywki):
                     continue
                 else:
                     mecz = {
-                        "sedzia": random.choice(self.lista_sedziow),
+                        "sedzia": str(random.choice(self.lista_sedziow)),
                         "druzyna1": self.druzyny[i].nazwa,
                         "druzyna2": self.druzyny[j].nazwa
                     }
@@ -179,6 +176,7 @@ class Dwa_ognie(Rozgrywki):
             for wynik in self.wyniki:
                 if wynik == druzyna.nazwa:
                     druzyna.dodaj_punkt_dwa_ognie()
+
     def organizuj_polfinaly(self):
         if len(self.druzyny) > 3:
             druzyny = self.druzyny
@@ -191,7 +189,7 @@ class Dwa_ognie(Rozgrywki):
         for i in range(len(self.polfinalisci)):
             for j in range(i + 1, len(self.polfinalisci)):
                 mecz = {
-                    "sedzia": random.choice(self.lista_sedziow),
+                    "sedzia": str(random.choice(self.lista_sedziow)),
                     "druzyna1": self.polfinalisci[i].nazwa,
                     "druzyna2": self.polfinalisci[j].nazwa
                 }
@@ -203,7 +201,7 @@ class Dwa_ognie(Rozgrywki):
             self.final.append(finalista)
 
         mecz = {
-            "sedzia": random.choice(self.lista_sedziow),
+            "sedzia": str(random.choice(self.lista_sedziow)),
             "druzyna1": self.final[0],
             "druzyna2": self.final[1]
         }
@@ -234,7 +232,7 @@ class Przeciaganie_liny(Rozgrywki):
                     continue
                 else:
                     mecz = {
-                        "sedzia": random.choice(self.lista_sedziow),
+                        "sedzia": str(random.choice(self.lista_sedziow)),
                         "druzyna1": self.druzyny[i].nazwa,
                         "druzyna2": self.druzyny[j].nazwa
                     }
@@ -248,6 +246,7 @@ class Przeciaganie_liny(Rozgrywki):
             for wynik in self.wyniki:
                 if wynik == druzyna.nazwa:
                     druzyna.dodaj_punkt_przeciaganie_liny()
+
     def organizuj_polfinaly(self):
         if len(self.druzyny) > 3:
             druzyny = self.druzyny
@@ -260,7 +259,7 @@ class Przeciaganie_liny(Rozgrywki):
         for i in range(len(self.polfinalisci)):
             for j in range(i + 1, len(self.polfinalisci)):
                 mecz = {
-                    "sedzia": random.choice(self.lista_sedziow),
+                    "sedzia": str(random.choice(self.lista_sedziow)),
                     "druzyna1": self.polfinalisci[i].nazwa,
                     "druzyna2": self.polfinalisci[j].nazwa
                 }
@@ -272,7 +271,7 @@ class Przeciaganie_liny(Rozgrywki):
             self.final.append(finalista)
 
         mecz = {
-            "sedzia": random.choice(self.lista_sedziow),
+            "sedzia": str(random.choice(self.lista_sedziow)),
             "druzyna1": self.final[0],
             "druzyna2": self.final[1]
         }

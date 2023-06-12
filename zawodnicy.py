@@ -18,6 +18,11 @@ class Zawodnik(Osoba):
         super().__init__(imie, nazwisko)
 
 
+class Sedzia(Osoba):
+    def __init__(self, imie, nazwisko):
+        super().__init__(imie, nazwisko)
+
+
 class Druzyna:
     def __init__(self, nazwa):
         self.nazwa = nazwa
@@ -68,7 +73,3 @@ class Sedziowie:
     def __repr__(self):
         return str([str(sedzia) for sedzia in self.lista_sedziow])
 
-
-class Sedzia(Osoba):
-    def __init__(self, imie, nazwisko):
-        super().__init__(imie, nazwisko)
