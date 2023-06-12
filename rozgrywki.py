@@ -310,7 +310,7 @@ class Zapis_Odczyt:
         with open(nazwa, 'wb') as plik:
             pickle.dump(dane, plik)
 
-    def zapisz_stan(self, nazwa):
+    def odczytaj(self, nazwa):
         with open(nazwa, 'rb') as plik:
             dane = pickle.load(plik)
         self.druzyny = dane['druzyny']
