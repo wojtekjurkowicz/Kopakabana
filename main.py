@@ -1,6 +1,6 @@
-from rozgrywki import Rozgrywki, Wyswietl_wyniki
-from sedziowie import Sedziowie, Sedzia
-from zawodnicy import Druzyna, Zawodnik
+from rozgrywki import Rozgrywki, Wyswietl_wyniki, Siatkowka_plazowa
+# from sedziowie import Sedziowie, Sedzia
+from zawodnicy import Druzyna, Zawodnik, Sedziowie, Sedzia
 
 sedziowie = Sedziowie()
 
@@ -37,20 +37,19 @@ for i in range(6):
         druzyna.zglos_zawodnika(zawodnik)
     druzyny.append(druzyna)
 
-rozgrywki = Rozgrywki(sedziowie.lista_sedziow)
+siatkowka = Siatkowka_plazowa(sedziowie.lista_sedziow)
 
 for druzyna in druzyny:
-    rozgrywki.dodaj_druzyne(druzyna)
+    siatkowka.dodaj_druzyne(druzyna)
 
-rozgrywki.przeglad_druzyn()
+siatkowka.przeglad_druzyn()
+print(sedziowie)
 
-rozgrywki.utworz_spotkania()
+siatkowka.utworz_spotkania()
 
-rozgrywki.symuluj_wyniki("siatkowka_plazowa")
-rozgrywki.zapisz_punkty("siatkowka_plazowa")
-rozgrywki.symuluj_wyniki("dwa_ognie")
-rozgrywki.symuluj_wyniki("przeciaganie_liny")
+siatkowka.symuluj_wyniki("siatkowka_plazowa")
+siatkowka.zapisz_punkty("siatkowka_plazowa")
 
-rozgrywki.organizuj_polfinaly("siatkowka_plazowa")
+siatkowka.organizuj_polfinaly("siatkowka_plazowa")
 
-rozgrywki.organizuj_finaly("siatkowka_plazowa")
+siatkowka.organizuj_finaly("siatkowka_plazowa")

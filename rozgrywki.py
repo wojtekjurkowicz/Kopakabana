@@ -55,27 +55,9 @@ class Rozgrywki(ABC):
         for druzyna in self.druzyny:
             print(druzyna)
 
+    @abstractmethod
     def utworz_spotkania(self):
-        for i in range(len(self.druzyny)):
-            for j in range(i + 1, len(self.druzyny)): # i + 1 aby ostatnia druzyna nie byla porownywana z sama soba
-                if (i == j) or any(
-                        (self.druzyny[i].nazwa == mecz["druzyna1"] and self.druzyny[j].nazwa ==
-                         mecz["druzyna2"]) or
-                        (self.druzyny[i].nazwa == mecz["druzyna2"] and self.druzyny[j].nazwa ==
-                         mecz["druzyna1"])
-                        for mecz in self.mecze
-                ):
-                    continue
-                else:
-                    mecz = {
-                        "sedzia": random.choice(self.lista_sedziow),
-                        "druzyna1": self.druzyny[i].nazwa,
-                        "druzyna2": self.druzyny[j].nazwa
-                    }
-                    self.mecze.append(mecz)
-                    print(mecz)
-
-        random.shuffle(self.mecze)
+        pass
 
     def symuluj_wyniki(self, dyscyplina):
         for mecz in self.mecze:
@@ -87,7 +69,6 @@ class Rozgrywki(ABC):
             for wynik in self.wyniki[dyscyplina]:
                 if wynik == druzyna.nazwa:
                     druzyna.dodaj_punkt(dyscyplina)
-                    print(druzyna.nazwa, ": " , druzyna.punkty)
 
     def organizuj_polfinaly(self, dyscyplina):
         if len(self.druzyny) > 3:
@@ -155,15 +136,33 @@ class Siatkowka_plazowa(Rozgrywki):
                 ):
                     continue
                 else:
+                    sedzia = random.choice(self.lista_sedziow)
+                    sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
+                    while True:
+                        sedzia_pom1 = random.choice(self.lista_sedziow)
+                        if sedzia_pom1 == sedzia:
+                            continue
+                        else:
+                            sedzia_pom1 = f"{sedzia.imie} {sedzia.nazwisko}"
+                            break
+
+                    while True:
+                        sedzia_pom2 = random.choice(self.lista_sedziow)
+                        if sedzia_pom1 == sedzia_pom2 or sedzia == sedzia_pom2:
+                            continue
+                        else:
+                            sedzia_pom2 = f"{sedzia.imie} {sedzia.nazwisko}"
+                            break
+
                     mecz = {
-                        "sedzia": random.choice(self.lista_sedziow),
-                        "sedzia_pom1": random.choice(self.lista_sedziow),
-                        "sedzia_pom2": random.choice(self.lista_sedziow),
+                        "sedzia": sedzia,
+                        "sedzia_pom1": sedzia_pom1,
+                        "sedzia_pom2": sedzia_pom2,
                         "druzyna1": self.druzyny[i].nazwa,
                         "druzyna2": self.druzyny[j].nazwa
                     }
                     self.mecze.append(mecz)
-                    print(mecz)
+                    print(str(mecz))
 
         random.shuffle(self.mecze)
 
@@ -217,6 +216,30 @@ class Dwa_ognie(Rozgrywki):
         self.finaly = []
         self.zwyciezca = None
 
+    def utworz_spotkania(self):
+        for i in range(len(self.druzyny)):
+            for j in range(i + 1, len(self.druzyny)): # i + 1 aby ostatnia druzyna nie byla porownywana z sama soba
+                if (i == j) or any(
+                        (self.druzyny[i].nazwa == mecz["druzyna1"] and self.druzyny[j].nazwa ==
+                         mecz["druzyna2"]) or
+                        (self.druzyny[i].nazwa == mecz["druzyna2"] and self.druzyny[j].nazwa ==
+                         mecz["druzyna1"])
+                        for mecz in self.mecze
+                ):
+                    continue
+                else:
+                    sedzia = random.choice(self.lista_sedziow)
+                    sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
+                    mecz = {
+                        "sedzia": sedzia,
+                        "druzyna1": self.druzyny[i].nazwa,
+                        "druzyna2": self.druzyny[j].nazwa
+                    }
+                    self.mecze.append(mecz)
+                    print(mecz)
+
+        random.shuffle(self.mecze)
+
 class Przeciaganie_liny(Rozgrywki):
     def __init__(self, lista_sedziow):
         super().__init__(lista_sedziow)
@@ -226,6 +249,30 @@ class Przeciaganie_liny(Rozgrywki):
         self.polfinaly = []
         self.finaly = []
         self.zwyciezca = None
+
+    def utworz_spotkania(self):
+        for i in range(len(self.druzyny)):
+            for j in range(i + 1, len(self.druzyny)): # i + 1 aby ostatnia druzyna nie byla porownywana z sama soba
+                if (i == j) or any(
+                        (self.druzyny[i].nazwa == mecz["druzyna1"] and self.druzyny[j].nazwa ==
+                         mecz["druzyna2"]) or
+                        (self.druzyny[i].nazwa == mecz["druzyna2"] and self.druzyny[j].nazwa ==
+                         mecz["druzyna1"])
+                        for mecz in self.mecze
+                ):
+                    continue
+                else:
+                    sedzia = random.choice(self.lista_sedziow)
+                    sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
+                    mecz = {
+                        "sedzia": sedzia,
+                        "druzyna1": self.druzyny[i].nazwa,
+                        "druzyna2": self.druzyny[j].nazwa
+                    }
+                    self.mecze.append(mecz)
+                    print(mecz)
+
+        random.shuffle(self.mecze)
 
 
 class Wyswietl_wyniki:

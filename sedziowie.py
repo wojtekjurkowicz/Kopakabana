@@ -15,6 +15,7 @@ class Sedziowie:
     def przeglad_sedziow(self):
         for sedzia in self.lista_sedziow:
             print(sedzia, end=", ")
+
     def __repr__(self):
         return str(repr(self.przeglad_sedziow()))
 
