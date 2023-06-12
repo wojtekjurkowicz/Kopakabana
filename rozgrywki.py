@@ -2,46 +2,18 @@ import random
 import pickle
 from abc import ABC, abstractmethod
 
+
 class Rozgrywki(ABC):
     def __init__(self, lista_sedziow):
         self.lista_sedziow = lista_sedziow
         self.druzyny = []
         self.mecze = []
-        self.wyniki = {
-            "siatkowka_plazowa": [],
-            "dwa_ognie": [],
-            "przeciaganie_liny": []
-        }
+        self.wyniki = []
         self.polfinalisci = []
         self.polfinaly = []
-        self.finaly = []
+        self.final = []
         self.zwyciezca = None
-        """self.druzyny = {
-            "siatkowka_plazowa": [],
-            "dwa_ognie": [],
-            "przeciaganie_liny": []
-        }
-        self.mecze = {
-            "siatkowka_plazowa": [],
-            "dwa_ognie": [],
-            "przeciaganie_liny": []
-        }
-        self.polfinaly = {
-            "siatkowka_plazowa": [],
-            "dwa_ognie": [],
-            "przeciaganie_liny": []
-        }
-        self.finaly = {
-            "siatkowka_plazowa": [],
-            "dwa_ognie": [],
-            "przeciaganie_liny": []
-        }
-        self.zwyciezcy = {
-            "siatkowka_plazowa": None,
-            "dwa_ognie": None,
-            "przeciaganie_liny": None
-        }
-"""
+
     def dodaj_druzyne(self, druzyna):
         if len(druzyna.lista_zawodnikow) < 6:
             return "Za malo zawodnikow!"
@@ -59,66 +31,23 @@ class Rozgrywki(ABC):
     def utworz_spotkania(self):
         pass
 
-    def symuluj_wyniki(self, dyscyplina):
+    def symuluj_wyniki(self):
         for mecz in self.mecze:
             wynik_meczu = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
-            self.wyniki[dyscyplina].append(wynik_meczu)
+            self.wyniki.append(wynik_meczu)
 
-    def zapisz_punkty(self, dyscyplina):
-        for druzyna in self.druzyny:
-            for wynik in self.wyniki[dyscyplina]:
-                if wynik == druzyna.nazwa:
-                    druzyna.dodaj_punkt(dyscyplina)
+    @abstractmethod
+    def zapisz_punkty(self):
+        pass
 
     @abstractmethod
     def organizuj_polfinaly(self):
         pass
-"""
-        if len(self.druzyny) > 3:
-            druzyny = self.druzyny
-            druzyny.sort(key=lambda druzyna: druzyna.punkty[dyscyplina], reverse=True)
-            polfinalisci = druzyny[:4]
-            random.shuffle(polfinalisci)
-            self.polfinalisci = polfinalisci
-
-        for i in range(int(len(self.polfinalisci)/2)):
-            druzyna1 = random.choice(self.polfinalisci)
-            self.polfinalisci.remove(druzyna1)
-            druzyna2 = random.choice(self.polfinalisci)
-            self.polfinalisci.remove(druzyna2)
-            polfinal = {
-                "sedzia": random.choice(self.lista_sedziow),
-                "druzyna1": druzyna1,
-                "druzyna2": druzyna2
-            }
-            self.polfinaly.append(polfinal)
-
-        print("Polfinal 1: ", self.polfinaly[0]["druzyna1"], self.polfinaly[0]["druzyna2"])
-        print("Polfinal 2: ", self.polfinaly[1]["druzyna1"], self.polfinaly[1]["druzyna2"])
-"""
 
     @abstractmethod
-    def organizuj_finaly(self):
+    def organizuj_final(self):
         pass
-"""
-        for i in range(len(self.polfinaly)):
-            polfinal = self.polfinaly[i]
-            finalista = random.choice([polfinal["druzyna1"], polfinal["druzyna2"]])
-            self.finaly.append(finalista)
-            print(self.finaly)
 
-        for i in range(len(self.finaly)):
-            for j in range(i + 1, len(self.finaly)):
-                mecz = {
-                    "sedzia": random.choice(self.lista_sedziow),
-                    "druzyna1": self.finaly[i],
-                    "druzyna2": self.finaly[j]
-                }
-                self.finaly.append(mecz)
-
-        zwyciezca = random.choice([self.finaly[0]["druzyna1"], self.finaly[0]["druzyna2"]])
-        self.zwyciezca = zwyciezca
-"""
 
 class Siatkowka_plazowa(Rozgrywki):
     def __init__(self, lista_sedziow):
@@ -144,15 +73,12 @@ class Siatkowka_plazowa(Rozgrywki):
                 else:
                     sedzia = random.choice(self.lista_sedziow)
                     sedzia = f"{sedzia.imie} {sedzia.nazwisko}"
-
-                    sedzia_pom3 = random.choice(self.lista_sedziow)
-                    sedzia_pom3 = f"{sedzia.imie} {sedzia.nazwisko}"
                     while True:
                         sedzia_pom1 = random.choice(self.lista_sedziow)
                         if sedzia_pom1 == sedzia:
                             continue
                         else:
-                            sedzia_pom1 = f"{sedzia.imie} {sedzia.nazwisko}"
+                            sedzia_pom1 = f"{sedzia_pom1.imie} {sedzia_pom1.nazwisko}"
                             break
 
                     while True:
@@ -160,7 +86,7 @@ class Siatkowka_plazowa(Rozgrywki):
                         if sedzia_pom1 == sedzia_pom2 or sedzia == sedzia_pom2:
                             continue
                         else:
-                            sedzia_pom2 = f"{sedzia.imie} {sedzia.nazwisko}"
+                            sedzia_pom2 = f"{sedzia_pom2.imie} {sedzia_pom2.nazwisko}"
                             break
 
                     mecz = {
@@ -175,10 +101,16 @@ class Siatkowka_plazowa(Rozgrywki):
 
         random.shuffle(self.mecze)
 
-    def organizuj_polfinaly(self, dyscyplina):
-        if len(self.druzyny[dyscyplina]) > 3:
-            druzyny = self.druzyny[dyscyplina]
-            druzyny.sort(key=lambda druzyna: druzyna.punkty[dyscyplina], reverse=True)
+    def zapisz_punkty(self):
+        for druzyna in self.druzyny:
+            for wynik in self.wyniki:
+                if wynik == druzyna.nazwa:
+                    druzyna.dodaj_punkt_siatkowka()
+
+    def organizuj_polfinaly(self):
+        if len(self.druzyny) > 3:
+            druzyny = self.druzyny
+            druzyny.sort(key=lambda druzyna: druzyna.punkty_siatkowka, reverse=True)
             polfinalisci = druzyny[:4]
             random.shuffle(polfinalisci)
             self.polfinalisci = polfinalisci
@@ -195,23 +127,23 @@ class Siatkowka_plazowa(Rozgrywki):
                 }
                 self.polfinaly.append(mecz)
 
-    def organizuj_finaly(self, dyscyplina):
-        for mecz in self.polfinaly[dyscyplina]:
+    def organizuj_final(self):
+        for mecz in self.polfinaly:
             finalista = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
-            self.finaly.append(finalista)
+            self.final.append(finalista)
 
-        for i in range(len(self.finaly)):
-            for j in range(i + 1, len(self.finaly)):
+        for i in range(len(self.final)):
+            for j in range(i + 1, len(self.final)):
                 mecz = {
                     "sedzia": random.choice(self.lista_sedziow),
                     "sedzia_pom1": random.choice(self.lista_sedziow),
                     "sedzia_pom2": random.choice(self.lista_sedziow),
-                    "druzyna1": self.finaly[i],
-                    "druzyna2": self.finaly[j]
+                    "druzyna1": self.final[i],
+                    "druzyna2": self.final[j]
                 }
-                self.finaly.append(mecz)
+                self.final.append(mecz)
 
-        for mecz in self.finaly:
+        for mecz in self.final:
             zwyciezca = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
             self.zwyciezca = zwyciezca
 
@@ -222,7 +154,7 @@ class Dwa_ognie(Rozgrywki):
         self.mecze = []
         self.wyniki = []
         self.polfinaly = []
-        self.finaly = []
+        self.final = []
         self.zwyciezca = None
 
     def utworz_spotkania(self):
@@ -248,6 +180,32 @@ class Dwa_ognie(Rozgrywki):
                     print(mecz)
 
         random.shuffle(self.mecze)
+
+    def zapisz_punkty(self):
+        for druzyna in self.druzyny:
+            for wynik in self.wyniki:
+                if wynik == druzyna.nazwa:
+                    druzyna.dodaj_punkt_dwa_ognie()
+    def organizuj_polfinaly(self):
+        self.polfinalisci = sorted(self.druzyny, key=lambda druzyna: druzyna.punkty_dwa_ognie, reverse=True)[:4]
+
+        for i in range(len(self.polfinalisci)):
+            for j in range(i + 1, len(self.polfinalisci)):
+                self.polfinaly.append({
+                    "druzyna1": self.polfinalisci[i].nazwa,
+                    "druzyna2": self.polfinalisci[j].nazwa
+                })
+
+    def organizuj_final(self):
+        finalisci = sorted(self.polfinalisci, key=lambda druzyna: druzyna.punkt, reverse=True)[:2]
+
+        self.final.append({
+            "druzyna1": finalisci[0].nazwa,
+            "druzyna2": finalisci[1].nazwa
+        })
+
+        self.zwyciezca = sorted(finalisci, key=lambda x: x.punkty["dwa_ognie"], reverse=True)[0]
+
 
 class Przeciaganie_liny(Rozgrywki):
     def __init__(self, lista_sedziow):
@@ -256,7 +214,7 @@ class Przeciaganie_liny(Rozgrywki):
         self.mecze = []
         self.wyniki = []
         self.polfinaly = []
-        self.finaly = []
+        self.final = []
         self.zwyciezca = None
 
     def utworz_spotkania(self):
@@ -282,6 +240,31 @@ class Przeciaganie_liny(Rozgrywki):
                     print(mecz)
 
         random.shuffle(self.mecze)
+
+    def zapisz_punkty(self):
+        for druzyna in self.druzyny:
+            for wynik in self.wyniki:
+                if wynik == druzyna.nazwa:
+                    druzyna.dodaj_punkt_przeciaganie_liny()
+    def organizuj_polfinaly(self):
+        self.polfinalisci = sorted(self.druzyny, key=lambda druzyna: druzyna.punkty_przeciaganie_liny, reverse=True)[:4]
+
+        for i in range(len(self.polfinalisci)):
+            for j in range(i + 1, len(self.polfinalisci)):
+                self.polfinaly.append({
+                    "druzyna1": self.polfinalisci[i].nazwa,
+                    "druzyna2": self.polfinalisci[j].nazwa
+                })
+
+    def organizuj_final(self):
+        finalisci = sorted(self.polfinalisci, key=lambda x: x.punkty["przeciaganie_liny"], reverse=True)[:2]
+
+        self.final.append({
+            "druzyna1": finalisci[0].nazwa,
+            "druzyna2": finalisci[1].nazwa
+        })
+
+        self.zwyciezca = sorted(finalisci, key=lambda x: x.punkty["przeciaganie_liny"], reverse=True)[0]
 
 
 class Wyswietl_wyniki:
@@ -313,7 +296,7 @@ class Zapis_Odczyt:
             'wyniki': self.wyniki,
             'polfinalisci': self.polfinalisci,
             'polfinaly': self.polfinaly,
-            'finaly': self.finaly,
+            'final': self.final,
             'zwyciezca': self.zwyciezca
         }
         with open(nazwa, 'wb') as plik:
@@ -327,5 +310,5 @@ class Zapis_Odczyt:
         self.wyniki = dane['wyniki']
         self.polfinalisci = dane['polfinalisci']
         self.polfinaly = dane['polfinaly']
-        self.finaly = dane['finaly']
+        self.final = dane['final']
         self.zwyciezca = dane['zwyciezca']

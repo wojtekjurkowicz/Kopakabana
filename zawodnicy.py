@@ -16,11 +16,9 @@ class Druzyna:
     def __init__(self, nazwa):
         self.nazwa = nazwa
         self.lista_zawodnikow = []
-        self.punkty = {
-            "siatkowka_plazowa": 0,
-            "dwa_ognie": 0,
-            "przeciaganie_liny": 0
-        }
+        self.punkty_siatkowka = 0
+        self.punkty_dwa_ognie = 0
+        self.punkty_przeciaganie_liny = 0
 
     def zglos_zawodnika(self, zawodnik):
         if len(self.lista_zawodnikow) <= 6:
@@ -35,8 +33,14 @@ class Druzyna:
             else:
                 return f"Nie ma takiego zawodnika jak {zawodnik}"
 
-    def dodaj_punkt(self, dyscyplina):
-        self.punkty[dyscyplina] += 1
+    def dodaj_punkt_siatkowka(self):
+        self.punkty_siatkowka += 1
+
+    def dodaj_punkt_dwa_ognie(self):
+        self.punkty_dwa_ognie += 1
+
+    def dodaj_punkt_przeciaganie_liny(self):
+        self.punkty_przeciaganie_liny += 1
 
     def przeglad_zawodnikow(self):
         print(self.nazwa, end=": ")

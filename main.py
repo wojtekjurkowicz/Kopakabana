@@ -47,9 +47,9 @@ print(sedziowie)
 
 siatkowka.utworz_spotkania()
 
-siatkowka.symuluj_wyniki("siatkowka_plazowa")
-siatkowka.zapisz_punkty("siatkowka_plazowa")
+siatkowka.symuluj_wyniki()
+siatkowka.zapisz_punkty()
 
-siatkowka.organizuj_polfinaly("siatkowka_plazowa")
+siatkowka.organizuj_polfinaly()
 
-siatkowka.organizuj_finaly("siatkowka_plazowa")
+siatkowka.organizuj_final()
