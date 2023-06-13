@@ -1,6 +1,6 @@
-import random
-import pickle
-from abc import ABC, abstractmethod
+import random # biblioteka do randomizacji
+import pickle # biblioteka do zapisywania/odcytywania z pliku
+from abc import ABC, abstractmethod # biblioteka do klas i metod abstrakcyjnych
 
 
 class Rozgrywki(ABC):
@@ -14,36 +14,45 @@ class Rozgrywki(ABC):
         self.final = []
         self.zwyciezca = None
 
+    # dodawanie druzyn do rozgrywek
     def dodaj_druzyne(self, druzyna):
         if len(druzyna.lista_zawodnikow) < 6:
             return "Za malo zawodnikow!"
         else:
             self.druzyny.append(druzyna)
 
+    # zwracanie listy druzyn
     def get_druzyny(self):
         return self.druzyny
 
+    # wypisywanie listy druzyn
     def przeglad_druzyn(self):
         for druzyna in self.druzyny:
             print(druzyna)
 
+    # metoda abstrakcyjna do tworzenia spotkan
     @abstractmethod
     def utworz_spotkania(self):
         pass
 
+    # symulowanie wynikow meczu
     def symuluj_wyniki(self):
         for mecz in self.mecze:
             wynik_meczu = random.choice([mecz["druzyna1"], mecz["druzyna2"]])
             self.wyniki.append(wynik_meczu)
 
+    # metoda abstrakcyjna do zapisywania punktow
     @abstractmethod
     def zapisz_punkty(self):
         pass
 
+    # metoda abstrakcyjna do organizowania polfinalow
+    # na podstawie ilosci zdobytych punktow
     @abstractmethod
     def organizuj_polfinaly(self):
         pass
 
+    # metoda abstrakcyjna do organizowania finalow
     @abstractmethod
     def organizuj_final(self):
         pass
@@ -283,6 +292,7 @@ class Wyswietl_wyniki:
     def __init__(self, rozgrywki):
         self.rozgrywki = rozgrywki
 
+    # tworzenie tablicy wynikow
     def generuj_tablice_wynikow(self):
         tablica = {}
         for druzyna in self.rozgrywki.get_druzyny():
@@ -293,6 +303,7 @@ class Wyswietl_wyniki:
             }
         return tablica
 
+    # wyswietlanie tablicy wynikow
     def wyswietl_tablice_wynikow(self):
         tablica = self.generuj_tablice_wynikow()
         print("Tablica wynikow:")
@@ -301,6 +312,7 @@ class Wyswietl_wyniki:
 
 
 class Zapis_Odczyt:
+    # zapisywanie do pliku
     def zapisz(self, nazwa):
         dane = {
             'druzyny': self.druzyny,
@@ -314,6 +326,7 @@ class Zapis_Odczyt:
         with open(nazwa, 'wb') as plik:
             pickle.dump(dane, plik)
 
+    # odczytywanie z pliku
     def odczyt(self, nazwa):
         with open(nazwa, 'rb') as plik:
             dane = pickle.load(plik)
