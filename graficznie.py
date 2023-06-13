@@ -1,24 +1,89 @@
 from tkinter import *
 from zawodnicy import Druzyna, Zawodnik, Sedziowie, Sedzia
-sedziowie = Sedziowie()
+from rozgrywki import Siatkowka_plazowa, Dwa_ognie, Przeciaganie_liny
+import random
 
 glowne_okno = Tk()
+glowne_okno.resizable(width=False, height=False)
+
 glowne_okno.title("Rozgrywki na słonecznej plaży Kopakabana")
-glowne_okno.geometry("600x480")
-bg = PhotoImage(file="kopakabana.ppm")
-label1 = Label(glowne_okno, image=bg)
-label1.place(x=0, y=0)
+glowne_okno.geometry("800x600")
+# bg = PhotoImage(file="kopakabana.ppm")
+# image_label = Label(glowne_okno, image=bg)
+# image_label.place(x=0, y=0)
+
+def losuj_sedziow():
+    button.destroy()
+    button1.destroy()
+    button2.destroy()
+    f = open('sedziowie.txt').read()
+    f = f.split("\n")
+    lista_sedziow = []
+    for i in f:
+        lista_sedziow.append(i)
+
+    sedziowie = Sedziowie()
+    for i in range(10):
+        sedzia = random.choice(lista_sedziow)
+        sedziowie.dodaj_sedziego(sedzia)
+        lista_sedziow.remove(sedzia)
+
+    print(sedziowie)
+    label = Label(glowne_okno, text="Sędziowie zostali wylosowani z puli\n\nCzy chcesz zmodyfikować listę?", font=("Arial", 15))
+    label.place(x=230, y=100)
+
+    imie_label = Label(glowne_okno, text="Imię: ")
+    imie_label.place(x=100, y=250)
+    imie_field = Entry(glowne_okno)
+    imie_field.place(x=200, y=250)
+    nazwisko_label = Label(glowne_okno, text="Nazwisko: ")
+    nazwisko_label.place(x=100, y=300)
+    nazwisko_field = Entry(glowne_okno)
+    nazwisko_field.place(x=200, y=300)
+    dodaj = Button(glowne_okno, text="Dodaj", height=2, width=14, command=sedziowie.dodaj_sedziego(Sedzia(imie_field, nazwisko_field)))
+    dodaj.place(x=100, y=350)
+    usun = Button(glowne_okno, text="Usuń", height=2, width=14, command=sedziowie.dodaj_sedziego(Sedzia(imie_field, nazwisko_field)))
+    usun.place(x=200, y=350)
+    def przejdz_dalej():
+        label.destroy()
+        imie_label.destroy()
+        imie_field.destroy()
+        nazwisko_label.destroy()
+        nazwisko_field.destroy()
+        dodaj.destroy()
+        usun.destroy()
+        dalej.destroy()
+        return sedziowie
+
+    dalej = Button(glowne_okno, text="Przejdź dalej", height=5, width=20, command=przejdz_dalej)
+    dalej.place(x=500, y=250)
+
+def siatkowka_plazowa():
+    sedziowie = losuj_sedziow()
+    rozgrywki = Siatkowka_plazowa(sedziowie.lista_sedziow)
 
 
-glowne_okno.columnconfigure(0, weight=1)
-glowne_okno.columnconfigure(1, weight=1)
+
+
+button = Button(glowne_okno, height=3, width=25, text="Siatkówka plażowa", command=losuj_sedziow)
+button.place(x=100, y=400)
+
+button1 = Button(glowne_okno, height=3, width=25, text="Dwa ognie", command=losuj_sedziow)
+button1.place(x=300, y=400)
+
+button2 = Button(glowne_okno, height=3, width=25, text="Przeciąganie liny", command=losuj_sedziow)
+button2.place(x=500, y=400)
+
+# def siatkowka_graficznie():
+
+
 
 glowne_okno.mainloop()
 
 """
 def donothing():
     nowe_okno = Toplevel(glowne_okno)
-    label = Label(nowe_okno, text="hej :33\nkocham cb")
+    label = Label(nowe_okno)
     button = Button(nowe_okno, text="Nacisnij", command=label.pack)
     button.pack()
 
