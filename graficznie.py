@@ -7,20 +7,31 @@ glowne_okno.resizable(width=False, height=False)
 
 glowne_okno.title("Rozgrywki na słonecznej plaży Kopakabana")
 glowne_okno.geometry("800x600")
-bg = PhotoImage(file="kopakabana.ppm")
-image_label = Label(glowne_okno, image=bg)
-image_label.place(x=0, y=0)
+# bg = PhotoImage(file="kopakabana.ppm")
+# image_label = Label(glowne_okno, image=bg)
+# image_label.place(x=0, y=0)
 
-hello_label = Label(image_label, font=('Batang', 16), text="Witamy na słonecznej plaży Kopakabana,\n"
-                                                           "gdzie drużyny mogą się sprawdzić w sportach "
-                                                           "zespołowych!\n Wybierz opcję")
-hello_label.place(y=100)
+# hello_label = Label(image_label, font=('Batang', 16), text="Witamy na słonecznej plaży Kopakabana,\n gdzie drużyny mogą się sprawdzić w sportach zespołowych!\n Wybierz w co chcesz zagrać")
 
-button = Button(glowne_okno, height=2, width=25, text="Wprowadź własne dane: ")
-button.place(x=100, y=300)
+# hello_label.place(y=100)
 
-button = Button(glowne_okno, height=2, width=25, text="Wybierz dane z pliku: ")
-button.place(x=300, y=300)
+def losuj_sedziow():
+    with open('ludzie.txt') as f:
+        linie = f.readlines()
+    for i in linie:
+        print(i)
+
+button = Button(glowne_okno, height=3, width=25, text="Siatkówka plażowa", command=losuj_sedziow)
+button.place(x=100, y=400)
+
+button = Button(glowne_okno, height=3, width=25, text="Dwa ognie")
+button.place(x=300, y=400)
+
+button = Button(glowne_okno, height=3, width=25, text="Przeciąganie liny")
+button.place(x=500, y=400)
+
+# def siatkowka_graficznie():
+
 
 
 glowne_okno.mainloop()
