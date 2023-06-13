@@ -23,9 +23,7 @@ def update(ind):
         ind = 0
     label.configure(image=frame)
     glowne_okno.after(100, update, ind)
-label = Label(glowne_okno)
-label.pack()
-glowne_okno.after(0, update, 0)
+
 
 def losuj_sedziow():
     frameCnt = 12
@@ -91,9 +89,49 @@ def losuj_sedziow():
 def siatkowka_plazowa():
     sedziowie = losuj_sedziow()
     rozgrywki = Siatkowka_plazowa(sedziowie.lista_sedziow)
+    label = Label(glowne_okno, text="Dodaj, usuń lub wygeneruj drużyny do rozpoczęcia rozgrywek!",
+                  font=("Arial", 15))
+    label.place(x=230, y=100)
+    def dodawanie_druzyny():
+        nazwa_label = Label(glowne_okno, text="Nazwa drużyny: ",
+                      font=("Arial", 15))
+        nazwa_label.place(x=100, y=300)
+        nazwa_field = Entry(glowne_okno)
+        nazwa_field.place(x=200, y=325)
+        label = Label(glowne_okno, text="Zgłoś zawodnika do drużyny",
+                      font=("Arial", 15))
+        label.place(x=100, y=300)
+        imie_label = Label(glowne_okno, text="Imię: ")
+        imie_label.place(x=100, y=325)
+        imie_field = Entry(glowne_okno)
+        imie_field.place(x=200, y=325)
+        nazwisko_label = Label(glowne_okno, text="Nazwisko: ")
+        nazwisko_label.place(x=100, y=350)
+        nazwisko_field = Entry(glowne_okno)
+        nazwisko_field.place(x=200, y=350)
+        dodaj = Button(glowne_okno, text="Dodaj", height=2, width=14,
+                       command=(Sedzia(imie_field, nazwisko_field)))
+        dodaj.place(x=100, y=350)
+        usun = Button(glowne_okno, text="Usuń", height=2, width=14,
+                      command=sedziowie.dodaj_sedziego(Sedzia(imie_field, nazwisko_field)))
+        usun.place(x=200, y=350)
+
+        label = Label(glowne_okno, text="Usuń zawodnika z drużyny",
+                      font=("Arial", 15))
+        label.place(x=230, y=400)
+
+    dodaj = Button(glowne_okno, text="Dodaj drużynę", height=5, width=20, command=dodawanie_druzyny)
+    dodaj.place(x=150, y=250)
+    generuj = Button(glowne_okno, text="Wygeneruj drużynę", height=5, width=20, command=przejdz_dalej)
+    generuj.place(x=450, y=250)
 
 
 
+
+
+label = Label(glowne_okno)
+label.pack()
+glowne_okno.after(0, update, 0)
 
 button = Button(glowne_okno, height=3, width=25, text="Siatkówka plażowa", command=losuj_sedziow)
 button.place(x=100, y=450)
@@ -105,7 +143,6 @@ button2 = Button(glowne_okno, height=3, width=25, text="Przeciąganie liny", com
 button2.place(x=500, y=450)
 
 # def siatkowka_graficznie():
-
 
 
 glowne_okno.mainloop()
