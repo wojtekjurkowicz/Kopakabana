@@ -6,7 +6,7 @@ glowne_okno = Tk()
 glowne_okno.resizable(width=False, height=False)
 
 glowne_okno.title("Rozgrywki na słonecznej plaży Kopakabana")
-glowne_okno.geometry("600x480")
+glowne_okno.geometry("800x600")
 bg = PhotoImage(file="kopakabana.ppm")
 image_label = Label(glowne_okno, image=bg)
 image_label.place(x=0, y=0)
