@@ -5,10 +5,10 @@ sedziowie = Sedziowie()
 glowne_okno = Tk()
 glowne_okno.title("Rozgrywki na słonecznej plaży Kopakabana")
 glowne_okno.geometry("600x480")
-"""bg = PhotoImage(file="kopakabana.ppm")
+bg = PhotoImage(file="kopakabana.ppm")
 label1 = Label(glowne_okno, image=bg)
 label1.place(x=0, y=0)
-"""
+
 
 glowne_okno.columnconfigure(0, weight=1)
 glowne_okno.columnconfigure(1, weight=1)
