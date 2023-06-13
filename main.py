@@ -1,5 +1,4 @@
 from rozgrywki import Wyswietl_wyniki, Dwa_ognie, Przeciaganie_liny
-# from sedziowie import Sedziowie, Sedzia
 from zawodnicy import Druzyna, Zawodnik, Sedziowie, Sedzia
 
 sedziowie = Sedziowie()
