@@ -3,22 +3,32 @@ from zawodnicy import Druzyna, Zawodnik, Sedziowie, Sedzia
 sedziowie = Sedziowie()
 
 glowne_okno = Tk()
+glowne_okno.resizable(width=False, height=False)
+
 glowne_okno.title("Rozgrywki na słonecznej plaży Kopakabana")
 glowne_okno.geometry("600x480")
 bg = PhotoImage(file="kopakabana.ppm")
-label1 = Label(glowne_okno, image=bg)
-label1.place(x=0, y=0)
+image_label = Label(glowne_okno, image=bg)
+image_label.place(x=0, y=0)
 
+hello_label = Label(image_label, font=('Batang', 16), text="Witamy na słonecznej plaży Kopakabana,\n"
+                                                           "gdzie drużyny mogą się sprawdzić w sportach "
+                                                           "zespołowych!\n Wybierz opcję")
+hello_label.place(y=100)
 
-glowne_okno.columnconfigure(0, weight=1)
-glowne_okno.columnconfigure(1, weight=1)
+button = Button(glowne_okno, height=2, width=25, text="Wprowadź własne dane: ")
+button.place(x=100, y=300)
+
+button = Button(glowne_okno, height=2, width=25, text="Wybierz dane z pliku: ")
+button.place(x=300, y=300)
+
 
 glowne_okno.mainloop()
 
 """
 def donothing():
     nowe_okno = Toplevel(glowne_okno)
-    label = Label(nowe_okno, text="hej :33\nkocham cb")
+    label = Label(nowe_okno)
     button = Button(nowe_okno, text="Nacisnij", command=label.pack)
     button.pack()
 
