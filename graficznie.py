@@ -7,12 +7,42 @@ glowne_okno = Tk()
 glowne_okno.resizable(width=False, height=False)
 
 glowne_okno.title("Rozgrywki na słonecznej plaży Kopakabana")
+glowne_okno.iconbitmap("icon.ico")
 glowne_okno.geometry("800x600")
 # bg = PhotoImage(file="kopakabana.ppm")
 # image_label = Label(glowne_okno, image=bg)
 # image_label.place(x=0, y=0)
 
+frameCnt = 12
+frames = [PhotoImage(file='kopakabana.gif', format = 'gif -index %i' %(i)) for i in range(frameCnt)]
+
+def update(ind):
+    frame = frames[ind]
+    ind += 1
+    if ind == frameCnt:
+        ind = 0
+    label.configure(image=frame)
+    glowne_okno.after(100, update, ind)
+label = Label(glowne_okno)
+label.pack()
+glowne_okno.after(0, update, 0)
+
 def losuj_sedziow():
+    frameCnt = 12
+    frames = [PhotoImage(file='kopakabana1.gif', format='gif -index %i' % (i)) for i in range(frameCnt)]
+
+    def update(ind):
+        frame = frames[ind]
+        ind += 1
+        if ind == frameCnt:
+            ind = 0
+        label.configure(image=frame)
+        glowne_okno.after(100, update, ind)
+
+    label = Label(glowne_okno)
+    label.pack()
+    glowne_okno.after(0, update, 0)
+
     button.destroy()
     button1.destroy()
     button2.destroy()
@@ -66,13 +96,13 @@ def siatkowka_plazowa():
 
 
 button = Button(glowne_okno, height=3, width=25, text="Siatkówka plażowa", command=losuj_sedziow)
-button.place(x=100, y=400)
+button.place(x=100, y=450)
 
 button1 = Button(glowne_okno, height=3, width=25, text="Dwa ognie", command=losuj_sedziow)
-button1.place(x=300, y=400)
+button1.place(x=300, y=450)
 
 button2 = Button(glowne_okno, height=3, width=25, text="Przeciąganie liny", command=losuj_sedziow)
-button2.place(x=500, y=400)
+button2.place(x=500, y=450)
 
 # def siatkowka_graficznie():
 
