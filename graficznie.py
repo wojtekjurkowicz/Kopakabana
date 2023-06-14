@@ -131,33 +131,88 @@ def siatkowka_plazowa(sedziowie):
     rozgrywki = Siatkowka_plazowa(sedziowie)
     druzyny_label = Label(glowne_okno, text="Ile chcesz drużyn w rozgrywkach(4-16)", font=("Arial", 15))
     druzyny_label.place(x=230, y=100)
-    ilosc_field = Entry(glowne_okno)
-    ilosc_field.place(x=340, y=150)
-    ilosc = ilosc_field.get()
-    print(ilosc)
-    """""
-    def iledruzyn():
-        print(ilosc)
-        if 4 <= int(ilosc) <= 16:
+    zla_liczba = Label()
+    def get_number():
+        number = int(entry.get())
+        if 4 <= number <= 16:
+            dalej(number)
+        else:
             druzyny_label.destroy()
-            przyciskpytanie.destroy()
-            pytanie_label = Label(glowne_okno, text="Generowanie / Wpisywanie", font=("Arial", 15))
-            pytanie_label.place(x=230, y=100)
-            przyciskpytanie = Button(glowne_okno, text="Generowanie", font=("Arial", 15))
-            przyciskpytanie.place(x=330, y=150)
-            przyciskpytanie = Button(glowne_okno, text="Wpisywanie", font=("Arial", 15))
-            przyciskpytanie.place(x=130, y=150)
-            
-    przyciskpytanie = Button(glowne_okno, text="OK", command=iledruzyn)
-    przyciskpytanie.place(x=390, y=180)
-    """
+            zla_liczba = Label(glowne_okno, text="Podaj liczbę jeszcze raz", font=("Arial", 15))
+            zla_liczba.place(x=230, y=100)
+            ok = Button(glowne_okno, text="OK", command=get_number)
+            ok.place(x=370, y=200)
 
 
-    # if not (komunikat and pytanie and imie_label and imie_field and nazwisko_label and nazwisko_field and dodaj and usun and dalej):
-    dodaj = Button(glowne_okno, text="Dodaj drużynę", height=5, width=20, command=dodawanie_druzyny)
-    dodaj.place(x=150, y=250)
-    generuj = Button(glowne_okno, text="Wygeneruj drużynę", height=5, width=20)
-    generuj.place(x=450, y=250)
+    entry = Entry(glowne_okno)
+    entry.place(x=340, y=150)
+
+    ok = Button(glowne_okno, text="OK", command=get_number, width=5, height=1)
+    ok.place(x=380, y=190)
+
+    def generuj_druzyny(liczba_druzyn, pytanie_label, generowanie_przycisk, wpisywanie_przycisk):
+        plik = open('ludzie.txt').read()
+        plik = plik.split("\n")
+        lista_zawodnikow = []
+        for i in plik:
+            lista_zawodnikow.append(i)
+
+        druzyny = []
+        for i in range(liczba_druzyn):
+            nazwa_druzyny = f"Drużyna {i + 1}"
+            druzyna = Druzyna(nazwa_druzyny)
+            for j in range(6):
+                zawodnik = random.choice(lista_zawodnikow)
+                lista_zawodnikow.remove(zawodnik)
+                druzyna.zglos_zawodnika(zawodnik)
+            druzyny.append(druzyna)
+            print(druzyna)
+            rozgrywki.dodaj_druzyne(druzyna)
+
+        pytanie_label.destroy()
+        generowanie_przycisk.destroy()
+        wpisywanie_przycisk.destroy()
+        generowanie_label = Label(glowne_okno, text="Pomyślnie wygenerowano", font=("Arial", 15), width=30)
+        generowanie_label.place(x=230, y=100)
+
+    def wpisuj_druzyny(liczba_druzyn):
+        lista_zawodnikow = []
+        druzyny = []
+        for i in range(liczba_druzyn):
+            nazwa_druzyny = f"Drużyna {i + 1}"
+            druzyna = Druzyna(nazwa_druzyny)
+            for j in range(6):
+                zawodnik = random.choice(lista_zawodnikow)
+                lista_zawodnikow.remove(zawodnik)
+                druzyna.zglos_zawodnika(zawodnik)
+            druzyny.append(druzyna)
+            print(druzyna)
+            rozgrywki.dodaj_druzyne(druzyna)
+
+
+    def dalej(number):
+        if zla_liczba:
+            zla_liczba.destroy()
+        entry.destroy()
+        ok.destroy()
+        druzyny_label.destroy()
+        pytanie_label = Label(glowne_okno, text="Generowanie / Wpisywanie", font=("Arial", 15), width=30)
+        pytanie_label.place(x=230, y=100)
+        generowanie_przycisk = Button(glowne_okno, text="Generowanie", font=("Arial", 15), width=20, command=lambda: generuj_druzyny(number, pytanie_label, generowanie_przycisk, wpisywanie_przycisk))
+        generowanie_przycisk.place(x=100, y=500)
+        wpisywanie_przycisk = Button(glowne_okno, text="Wpisywanie", font=("Arial", 15), width=20, command=lambda: wpisuj_druzyny(number))
+        wpisywanie_przycisk.place(x=470, y=500)
+
+        print(number)
+        print(len(rozgrywki.druzyny))
+        if len(rozgrywki.druzyny) == number:
+            pytanie_label.destroy()
+            generowanie_przycisk.destroy()
+            wpisywanie_przycisk.destroy()
+
+
+
+
 
 
 siatkowka_przycisk = Button(glowne_okno, height=3, width=25, text="Siatkówka plażowa", command=losuj_sedziow)
