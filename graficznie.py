@@ -131,29 +131,27 @@ def siatkowka_plazowa(sedziowie):
     rozgrywki = Siatkowka_plazowa(sedziowie)
     druzyny_label = Label(glowne_okno, text="Ile chcesz drużyn w rozgrywkach(4-16)", font=("Arial", 15))
     druzyny_label.place(x=230, y=100)
-    def dodawanie_druzyny():
-        nazwa_label = Label(glowne_okno, text="Nazwa drużyny: ", font=("Arial", 15))
-        nazwa_label.place(x=100, y=300)
-        nazwa_field = Entry(glowne_okno)
-        nazwa_field.place(x=200, y=325)
-        label = Label(glowne_okno, text="Zgłoś zawodnika do drużyny", font=("Arial", 15))
-        label.place(x=100, y=300)
-        imie_label = Label(glowne_okno, text="Imię: ")
-        imie_label.place(x=100, y=325)
-        imie_field = Entry(glowne_okno)
-        imie_field.place(x=200, y=325)
-        nazwisko_label = Label(glowne_okno, text="Nazwisko: ")
-        nazwisko_label.place(x=100, y=350)
-        nazwisko_field = Entry(glowne_okno)
-        nazwisko_field.place(x=200, y=350)
-        dodaj = Button(glowne_okno, text="Dodaj", height=2, width=14)
-        dodaj.place(x=100, y=350)
-        usun = Button(glowne_okno, text="Usuń", height=2, width=14)
-        usun.place(x=200, y=350)
+    ilosc_field = Entry(glowne_okno)
+    ilosc_field.place(x=340, y=150)
+    ilosc = ilosc_field.get()
+    print(ilosc)
+    """""
+    def iledruzyn():
+        print(ilosc)
+        if 4 <= int(ilosc) <= 16:
+            druzyny_label.destroy()
+            przyciskpytanie.destroy()
+            pytanie_label = Label(glowne_okno, text="Generowanie / Wpisywanie", font=("Arial", 15))
+            pytanie_label.place(x=230, y=100)
+            przyciskpytanie = Button(glowne_okno, text="Generowanie", font=("Arial", 15))
+            przyciskpytanie.place(x=330, y=150)
+            przyciskpytanie = Button(glowne_okno, text="Wpisywanie", font=("Arial", 15))
+            przyciskpytanie.place(x=130, y=150)
+            
+    przyciskpytanie = Button(glowne_okno, text="OK", command=iledruzyn)
+    przyciskpytanie.place(x=390, y=180)
+    """
 
-        label = Label(glowne_okno, text="Usuń zawodnika z drużyny",
-                          font=("Arial", 15))
-        label.place(x=230, y=400)
 
     # if not (komunikat and pytanie and imie_label and imie_field and nazwisko_label and nazwisko_field and dodaj and usun and dalej):
     dodaj = Button(glowne_okno, text="Dodaj drużynę", height=5, width=20, command=dodawanie_druzyny)
