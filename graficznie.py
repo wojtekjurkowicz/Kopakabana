@@ -12,7 +12,8 @@ glowne_okno.geometry("800x600")
 frameCnt = 12
 frames = [PhotoImage(file='kopakabana.gif', format = 'gif -index %i' % i) for i in range(frameCnt)]
 
-def update(ind):
+
+def update(ind):  # tylko i wyłącznie do gifa na poczatku
     frame = frames[ind]
     ind += 1
     if ind == frameCnt:
@@ -24,7 +25,9 @@ gif = Label(glowne_okno)
 gif.pack()
 glowne_okno.after(0, update, 0)
 
+
 def losuj_sedziow():
+    d_y = 150
     gif.destroy()
     bg = PhotoImage(file="kopakabana.png")
     bg_label = Label(glowne_okno, image=bg)
@@ -48,7 +51,6 @@ def losuj_sedziow():
     print(sedziowie)
     lista = []
     lista_labeli = []
-
     def wypisz_sedziow():
         d_y = 150
         for sedzia in sedziowie.lista_sedziow:
@@ -83,7 +85,7 @@ def losuj_sedziow():
             print(f"imie: {imie}, nazwisko: {nazwisko}")
             sedzia_label = Label(glowne_okno, text=str(sedzia))
             lista_labeli.append(sedzia_label)
-            lista.append(sedzia)
+            lista.append(str(sedzia))
             sedzia_label.place(x=600, y=150+(len(lista)-11)*25)
         else:
             pytanie.destroy()
@@ -96,14 +98,15 @@ def losuj_sedziow():
             nazwisko = nazwisko_field.get()
             sedzia = Sedzia(imie, nazwisko)
             print(f"imie: {imie}, nazwisko: {nazwisko}")
-            if sedzia in lista:
-                ind = lista.index(sedzia)
+            if str(sedzia) in lista:
+                ind = lista.index(str(sedzia))
+                lista_labeli[ind].destroy()
+                lista_labeli.pop(ind)
                 sedziowie.usun_sedziego(sedzia)
-                lista.remove(sedzia)
-                sedzia_label = lista_labeli[ind]
-                sedzia_label.destroy()
-                lista_labeli.remove(lista_labeli[ind])
+                lista.remove(str(sedzia))
                 wypisz_sedziow()
+                print(lista_labeli)
+                print(lista)
             else:
                 nie_ma = Label(glowne_okno, text="Nie ma takiego sędziego na liście!")
 
