@@ -212,7 +212,6 @@ def wczytywanie_z_pliku(dyscyplina):
         for i in range(len(lista_labeli)):
             lista_labeli[i].destroy()
         lista_labeli.clear()
-        zwyciezca = rozgrywki.zwyciezca
         if dyscyplina == "siatkowka_plazowa":
             final_label = Label(glowne_okno,
                                 text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}, "
