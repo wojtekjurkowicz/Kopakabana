@@ -394,7 +394,6 @@ def rozgrywki(sedziowie, dyscyplina):
         generowanie_przycisk.destroy()
         wpisywanie_przycisk.destroy()
         napotem_label = []
-        lista_druzyn = [] # DO ZROBIENIA JESZCZE ALE NA LUZIE MYŚLĘ
         powpisuj_druzyny(0, liczba_druzyn, napotem_label)
 
     def przycisk(imie, nazwisko, druzyna, numerzawodnika, napotem_label, numerdruzyny, liczba_druzyn):
@@ -452,6 +451,157 @@ def rozgrywki(sedziowie, dyscyplina):
         dodajzawodnikow(liczba_druzyn, napotem_label, jakanazwa, numerdruzyny)
 
     def powpisuj_druzyny(numerdruzyny, liczba_druzyn, napotem_label):        # numero 2
+        def wypisywanie_wynikow():
+            for trash in napotem_label:
+                trash.destroy()
+            rozgrywki.utworz_spotkania()
+            d_y = 50
+            labels = []
+            mecze_label = Label(glowne_okno,
+                               text=f"Mecze: ", font=("Arial", 15))
+            mecze_label.place(x=30, y=20)
+            labels.append(mecze_label)
+            for mecz in rozgrywki.mecze:
+                if dyscyplina == "siatkowka_plazowa":
+                    mecz_label = Label(glowne_okno, font=("Arial", 10), text=f"{mecz['druzyna1']} vs {mecz['druzyna2']}, "
+                                                         f"sędzia: {mecz['sedzia']}, pomocniczy: {mecz['sedzia_pom1']}, {mecz['sedzia_pom2']}")
+                    mecz_label.place(x=30, y=d_y)
+                    labels.append(mecz_label)
+                    d_y+=25
+                else:
+                    mecz_label = Label(glowne_okno, font=("Arial", 10), text=f"{mecz['druzyna1']} vs {mecz['druzyna2']}, "
+                                                         f"sędzia: {mecz['sedzia']}")
+                    mecz_label.place(x=30, y=d_y)
+                    labels.append(mecz_label)
+                    d_y += 25
+            rozgrywki.symuluj_wyniki()
+            d_y = 50
+            wyniki_label = Label(glowne_okno, font=("Arial", 15),
+                                text=f"Wyniki: ")
+            wyniki_label.place(x=730, y=20)
+            labels.append(wyniki_label)
+            for wynik in rozgrywki.wyniki:
+                wynik_label = Label(glowne_okno, font=("Arial", 10),
+                                   text=f"Zwyciężyła: {wynik}")
+                wynik_label.place(x=730, y=d_y)
+                labels.append(wynik_label)
+                d_y += 25
+            rozgrywki.zapisz_punkty()
+            rozgrywki.organizuj_polfinaly()
+            rozgrywki.organizuj_final()
+            print(rozgrywki.zwyciezca)
+            status = {
+                "druzyny": rozgrywki.druzyny,
+                "lista_sedziow": rozgrywki.lista_sedziow,
+                "mecze": rozgrywki.mecze,
+                "wyniki": rozgrywki.wyniki,
+                "polfinalisci": rozgrywki.polfinalisci,
+                "polfinaly": rozgrywki.polfinaly,
+                "final": rozgrywki.final,
+                "zwyciezca": rozgrywki.zwyciezca
+            }
+            if dyscyplina == "siatkowka_plazowa":
+                plik = "siatkowka.pickle"
+            if dyscyplina == "dwa_ognie":
+                plik = "dwa_ognie.pickle"
+            if dyscyplina == "przeciaganie_liny":
+                plik = "przeciaganie_liny.pickle"
+
+            with open(plik, "wb") as p:
+                pickle.dump(status, p)
+
+            def do_polfinalow():
+                for i in range(len(labels)):
+                    labels[i].destroy()
+                labels.clear()
+
+                d_y = 50
+                polfinaly_label = Label(glowne_okno,
+                                       text=f"Półfinaliści: ")
+                polfinaly_label.place(x=50, y=25)
+                labels.append(polfinaly_label)
+                if dyscyplina == "siatkowka_plazowa":
+                    rozgrywki.polfinalisci.sort(key=lambda druzyna: druzyna.punkty_siatkowka, reverse=True)
+                    for polfinalista in rozgrywki.polfinalisci:
+                        polfinalista_label = Label(glowne_okno,
+                                                   text=f"{polfinalista.nazwa}, liczba zdobytych punktów: {polfinalista.punkty_siatkowka}")
+                        polfinalista_label.place(x=50, y=d_y)
+                        labels.append(polfinalista_label)
+                        d_y += 25
+                    d_y = 250
+                    for polfinal in rozgrywki.polfinaly:
+                        polfinal_label = Label(glowne_okno,
+                                               text=f"Mecz {polfinal['druzyna1']} vs {polfinal['druzyna2']}, "
+                                                    f"sędzia: {polfinal['sedzia']}, sędziowie pomocniczy: {polfinal['sedzia_pom1']}, {polfinal['sedzia_pom2']}")
+                        polfinal_label.place(x=25, y=d_y)
+                        labels.append(polfinal_label)
+                        d_y += 25
+                elif dyscyplina == "dwa_ognie":
+                    rozgrywki.polfinalisci.sort(key=lambda druzyna: druzyna.punkty_dwa_ognie, reverse=True)
+                    for polfinalista in rozgrywki.polfinalisci:
+                        polfinalista_label = Label(glowne_okno,
+                                                   text=f"{polfinalista.nazwa}, liczba zdobytych punktów: {polfinalista.punkty_dwa_ognie}")
+                        polfinalista_label.place(x=50, y=d_y)
+                        labels.append(polfinalista_label)
+                        d_y += 25
+                    d_y = 250
+                    for polfinal in rozgrywki.polfinaly:
+                        polfinal_label = Label(glowne_okno,
+                                               text=f"Mecz {polfinal['druzyna1']} vs {polfinal['druzyna2']}, "
+                                                    f"sędzia: {polfinal['sedzia']}")
+                        polfinal_label.place(x=25, y=d_y)
+                        labels.append(polfinal_label)
+                        d_y += 25
+                elif dyscyplina == "przeciaganie_liny":
+                    rozgrywki.polfinalisci.sort(key=lambda druzyna: druzyna.punkty_przeciaganie_liny, reverse=True)
+                    for polfinalista in rozgrywki.polfinalisci:
+                        polfinalista_label = Label(glowne_okno,
+                                           text=f"{polfinalista.nazwa}, liczba zdobytych punktów: {polfinalista.punkty_przeciaganie_liny}")
+                        polfinalista_label.place(x=50, y=d_y)
+                        labels.append(polfinalista_label)
+                        d_y += 25
+                    d_y = 250
+                    for polfinal in rozgrywki.polfinaly:
+                        polfinal_label = Label(glowne_okno, text=f"Mecz {polfinal['druzyna1']} vs {polfinal['druzyna2']}, "
+                                                         f"sędzia: {polfinal['sedzia']}")
+                        polfinal_label.place(x=25, y=d_y)
+                        labels.append(polfinal_label)
+                        d_y += 25
+                przycisk_do_finalu.place(x=875, y=680)
+
+            przycisk_do_polfinalow = Button(text="Dalej", command=lambda: [do_polfinalow(), przycisk_do_polfinalow.destroy()], height=2, width=10, font=("Arial", 15))
+            przycisk_do_polfinalow.place(x=875, y=680)
+
+            def do_finalu():
+                for i in range(len(labels)):
+                    labels[i].destroy()
+                labels.clear()
+                final = rozgrywki.final
+                zwyciezca = rozgrywki.zwyciezca
+                if dyscyplina == "siatkowka_plazowa":
+                    final_label = Label(glowne_okno,
+                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}, "
+                                            f"sędziowie pomocniczy: {final['sedzia_pom1']}, {final['sedzia_pom2']}")
+                    final_label.place(x=100, y=260)
+                    zwyciezca_label = Label(glowne_okno, text=f"ZWYCIĘŻA: {zwyciezca}!!!", font=("Arial", 30))
+                    zwyciezca_label.place(x=180, y=360)
+                    labels.append(mecz_label)
+                elif dyscyplina == "dwa_ognie":
+                    final_label = Label(glowne_okno,
+                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}")
+                    final_label.place(x=100, y=260)
+                    zwyciezca_label = Label(glowne_okno, text=f"ZWYCIĘŻA: {zwyciezca}!!!", font=("Arial", 30))
+                    zwyciezca_label.place(x=180, y=360)
+                    labels.append(mecz_label)
+                elif dyscyplina == "przeciaganie_liny":
+                    final_label = Label(glowne_okno,
+                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}")
+                    final_label.place(x=100, y=260)
+                    zwyciezca_label = Label(glowne_okno, text=f"ZWYCIĘŻA: {zwyciezca}!!!", font=("Arial", 30))
+                    zwyciezca_label.place(x=180, y=360)
+                    labels.append(mecz_label)
+            przycisk_do_finalu = Button(text="Dalej",
+                                            command=lambda: [do_finalu(), przycisk_do_finalu.destroy()], height=2, width=10, font=("Arial", 15))
         if numerdruzyny < liczba_druzyn:
             for k in napotem_label:
                 k.destroy()
@@ -469,8 +619,13 @@ def rozgrywki(sedziowie, dyscyplina):
             for w in napotem_label:
                 w.destroy()
             noisuper = Label(glowne_okno, text="Zawodnicy zostali zapisani :)", font=("Arial", 30))
-            noisuper.place(x=40, y=500)
+            noisuper.place(x=200, y=500)
             napotem_label.append(noisuper)
+            dalej_przycisk = Button(text="Dalej", font=("Arial", 15), width=14,
+                                    command=lambda: [wypisywanie_wynikow()])
+            dalej_przycisk.place(x=210, y=450)
+            napotem_label.append(dalej_przycisk)
+
     def generuj_druzyny(liczba_druzyn, pytanie_label, generowanie_przycisk, wpisywanie_przycisk):
         plik = open('ludzie.txt').read()
         plik = plik.split("\n")
@@ -624,25 +779,27 @@ def rozgrywki(sedziowie, dyscyplina):
                 zwyciezca = rozgrywki.zwyciezca
                 if dyscyplina == "siatkowka_plazowa":
                     final_label = Label(glowne_okno,
-                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}, "
-                                            f"sędziowie pomocniczy: {final['sedzia_pom1']}, {final['sedzia_pom2']}")
-                    final_label.place(x=100, y=260)
+                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']},"
+                                            , font=("Arial", 15))
+                    finalnisedziowie_label = Label(glowne_okno, text=f"sędziowie pomocniczy: {final['sedzia_pom1']}, {final['sedzia_pom2']}, ", font=("Arial", 15))
+                    final_label.place(x=140, y=260)
+                    finalnisedziowie_label.place(x=140, y=300)
                     zwyciezca_label = Label(glowne_okno, text=f"ZWYCIĘŻA: {zwyciezca}!!!", font=("Arial", 30))
-                    zwyciezca_label.place(x=180, y=360)
+                    zwyciezca_label.place(x=250, y=360)
                     labels.append(mecz_label)
                 elif dyscyplina == "dwa_ognie":
                     final_label = Label(glowne_okno,
-                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}")
-                    final_label.place(x=100, y=260)
+                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}", font=("Arial", 15))
+                    final_label.place(x=140, y=260)
                     zwyciezca_label = Label(glowne_okno, text=f"ZWYCIĘŻA: {zwyciezca}!!!", font=("Arial", 30))
-                    zwyciezca_label.place(x=180, y=360)
+                    zwyciezca_label.place(x=250, y=360)
                     labels.append(mecz_label)
                 elif dyscyplina == "przeciaganie_liny":
                     final_label = Label(glowne_okno,
-                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}")
-                    final_label.place(x=100, y=260)
+                                       text=f"Finał: {final['druzyna1']} vs {final['druzyna2']}, sędzia: {final['sedzia']}", font=("Arial", 15))
+                    final_label.place(x=140, y=260)
                     zwyciezca_label = Label(glowne_okno, text=f"ZWYCIĘŻA: {zwyciezca}!!!", font=("Arial", 30))
-                    zwyciezca_label.place(x=180, y=360)
+                    zwyciezca_label.place(x=250, y=360)
                     labels.append(mecz_label)
 
 
@@ -651,23 +808,6 @@ def rozgrywki(sedziowie, dyscyplina):
 
         dalej_przycisk = Button(text="Dalej", font=("Arial", 15), width=14, command=lambda: [wypisywanie_wynikow(), generowanie_label.destroy(), dalej_przycisk.destroy()])
         dalej_przycisk.place(x=210, y=450)
-
-
-
-    def wpisuj_druzyny(liczba_druzyn):
-        lista_zawodnikow = []
-        druzyny = []
-        for i in range(liczba_druzyn):
-            nazwa_druzyny = f"Drużyna {i + 1}"
-            druzyna = Druzyna(nazwa_druzyny)
-            for j in range(6):
-                zawodnik = random.choice(lista_zawodnikow)
-                lista_zawodnikow.remove(zawodnik)
-                druzyna.zglos_zawodnika(zawodnik)
-            druzyny.append(druzyna)
-            print(druzyna)
-            rozgrywki.dodaj_druzyne(druzyna)
-
 
     def dalej(number):
         entry.destroy()
