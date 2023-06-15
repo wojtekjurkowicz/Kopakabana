@@ -59,7 +59,7 @@ def wczytywanie_z_pliku(dyscyplina):
         final = dane["final"]
         zwyciezca = dane["zwyciezca"]
 
-    print(final)
+    print(zwyciezca)
 
 
     sedziowie = Sedziowie()
@@ -104,14 +104,13 @@ def wczytywanie_z_pliku(dyscyplina):
     wypisz_druzyny()
 
     def do_polfinalow():
-        print(polfinaly)
         for i in range(len(lista_labeli)):
             lista_labeli[i].destroy()
         lista_labeli.clear()
 
-        d_y = 50
+        d_y = 60
         polfinaly_label = Label(glowne_okno,
-                                   text=f"Półfinaliści: ")
+                                   text=f"Półfinaliści: ", font=("Arial", 15))
         polfinaly_label.place(x=50, y=25)
         lista_labeli.append(polfinaly_label)
         if dyscyplina == "siatkowka_plazowa":
@@ -122,12 +121,15 @@ def wczytywanie_z_pliku(dyscyplina):
                 polfinalista_label.place(x=50, y=d_y)
                 lista_labeli.append(polfinalista_label)
                 d_y += 25
-            d_y = 250
+            d_y = 60
+            polfinal_label = Label(glowne_okno, text=f"Półfinały:", font=("Arial", 15))
+            polfinal_label.place(x=350, y=25)
+            lista_labeli.append(polfinal_label)
             for polfinal in polfinaly:
                 polfinal_label = Label(glowne_okno,
                                        text=f"Mecz {polfinal['druzyna1']} vs {polfinal['druzyna2']}, "
                                             f"sędzia: {polfinal['sedzia']}, sędziowie pomocniczy: {polfinal['sedzia_pom1']}, {polfinal['sedzia_pom2']}")
-                polfinal_label.place(x=25, y=d_y)
+                polfinal_label.place(x=350, y=d_y)
                 lista_labeli.append(polfinal_label)
                 d_y += 25
         elif dyscyplina == "dwa_ognie":
@@ -138,13 +140,16 @@ def wczytywanie_z_pliku(dyscyplina):
                 polfinalista_label.place(x=50, y=d_y)
                 lista_labeli.append(polfinalista_label)
                 d_y += 25
-            d_y = 250
+            d_y = 60
+            polfinal_label = Label(glowne_okno, text=f"Półfinały:", font=("Arial", 15))
+            polfinal_label.place(x=350, y=25)
+            lista_labeli.append(polfinal_label)
             for polfinal in polfinaly:
                 polfinal = dict(polfinal)
                 polfinal_label = Label(glowne_okno,
                                         text=f"Mecz {polfinal['druzyna1']} vs {polfinal['druzyna2']}, "
                                             f"sędzia: {polfinal['sedzia']}")
-                polfinal_label.place(x=25, y=d_y)
+                polfinal_label.place(x=350, y=d_y)
                 lista_labeli.append(polfinal_label)
                 d_y += 25
         elif dyscyplina == "przeciaganie_liny":
@@ -155,11 +160,14 @@ def wczytywanie_z_pliku(dyscyplina):
                 polfinalista_label.place(x=50, y=d_y)
                 lista_labeli.append(polfinalista_label)
                 d_y += 25
-            d_y = 250
+            d_y = 60
+            polfinal_label = Label(glowne_okno, text=f"Półfinały:", font=("Arial", 15))
+            polfinal_label.place(x=350, y=25)
+            lista_labeli.append(polfinal_label)
             for polfinal in polfinaly:
                 polfinal_label = Label(glowne_okno, text=f"Mecz {polfinal['druzyna1']} vs {polfinal['druzyna2']}, "
                                                  f"sędzia: {polfinal['sedzia']}")
-                polfinal_label.place(x=25, y=d_y)
+                polfinal_label.place(x=350, y=d_y)
                 lista_labeli.append(polfinal_label)
                 d_y += 25
 
@@ -187,6 +195,7 @@ def wczytywanie_z_pliku(dyscyplina):
                 mecz_label.place(x=30, y=d_y)
                 lista_labeli.append(mecz_label)
                 d_y += 25
+        d_y = 50
         for wynik in wyniki:
             wynik_label = Label(glowne_okno, font=("Arial", 10),
                                 text=f"Zwyciężyła: {wynik}")
@@ -194,14 +203,15 @@ def wczytywanie_z_pliku(dyscyplina):
             lista_labeli.append(wynik_label)
             d_y += 25
 
+        przycisk_do_polfinalow.place(x=875, y=680)
+
+
     przycisk_do_polfinalow = Button(text="Dalej", command=lambda: [do_polfinalow(), przycisk_do_polfinalow.destroy()], height=2, width=10, font=("Arial", 15))
-    przycisk_do_polfinalow.place(x=875, y=680)
 
     def do_finalu():
         for i in range(len(lista_labeli)):
             lista_labeli[i].destroy()
         lista_labeli.clear()
-        final = rozgrywki.final
         zwyciezca = rozgrywki.zwyciezca
         if dyscyplina == "siatkowka_plazowa":
             final_label = Label(glowne_okno,
