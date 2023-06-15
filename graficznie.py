@@ -180,6 +180,7 @@ def siatkowka_plazowa(sedziowie):
         generowanie_przycisk.destroy()
         wpisywanie_przycisk.destroy()
         napotem_label = []
+        lista_druzyn = [] # DO ZROBIENIA JESZCZE ALE NA LUZIE MYŚLĘ
         powpisuj_druzyny(0, liczba_druzyn, napotem_label)
 
     def przycisk(imie, nazwisko, druzyna, numerzawodnika, napotem_label, numerdruzyny, liczba_druzyn):
@@ -193,7 +194,7 @@ def siatkowka_plazowa(sedziowie):
         dodajdruzyne(numerzawodnika + 1, napotem_label, druzyna, numerdruzyny, liczba_druzyn)
 
     def dodajdruzyne(numerzawodnika, napotem_label, druzyna, numerdruzyny, liczba_druzyn):             # numero 5
-        if numerzawodnika <= 5:
+        if numerzawodnika < 5:
             ktoryto = Label(glowne_okno, text=f"Zawodnik Nr.{numerzawodnika + 1}", font=("Arial", 18))
             ktoryto.place(x=480, y=50)
             napotem_label.append(ktoryto)
@@ -233,6 +234,7 @@ def siatkowka_plazowa(sedziowie):
 
     def dodajnazwedruzyny(liczba_druzyn, napotem_label, nazwa, numerdruzyny):        # numero 3
         jakanazwa = nazwa.get()
+        print(jakanazwa)
         dodajzawodnikow(liczba_druzyn, napotem_label, jakanazwa, numerdruzyny)
 
     def powpisuj_druzyny(numerdruzyny, liczba_druzyn, napotem_label):        # numero 2
