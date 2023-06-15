@@ -43,10 +43,10 @@ def losuj_sedziow(dyscyplina):
         d_y = 100
         for sedzia in sedziowie.lista_sedziow:
             if str(sedzia) not in lista:
-                sedzia_label = Label(glowne_okno, text=sedzia)
+                sedzia_label = Label(glowne_okno, text=sedzia, font=("Arial", 12))
                 lista.append(str(sedzia))
                 lista_labeli.append(sedzia_label)
-                sedzia_label.place(x=420, y=d_y)
+                sedzia_label.place(x=50, y=d_y)
                 d_y += 25
 
         print(len(lista))
@@ -54,21 +54,21 @@ def losuj_sedziow(dyscyplina):
         print(lista_labeli)
 
     komunikat = Label(glowne_okno, text="Lista sędziów: ", font=("Arial", 15))
-    komunikat.place(x=420, y=50)
+    komunikat.place(x=50, y=50)
     wypisz_sedziow()
 
-    pytanie = Label(glowne_okno, text="Czy chcesz zmodyfikować listę? (max: 10)")
-    pytanie.place(x=100, y=450)
-    imie_label = Label(glowne_okno, text="Imię: ")
-    imie_label.place(x=100, y=475)
-    imie_field = Entry(glowne_okno)
-    imie_field.place(x=175, y=475)
-    nazwisko_label = Label(glowne_okno, text="Nazwisko: ")
-    nazwisko_label.place(x=100, y=500)
-    nazwisko_field = Entry(glowne_okno)
-    nazwisko_field.place(x=175, y=500)
+    pytanie = Label(glowne_okno, text="Czy chcesz zmodyfikować listę? (max: 10)", font=("Arial", 15))
+    pytanie.place(x=50, y=550)
+    imie_label = Label(glowne_okno, text="Imię: ", font=("Arial", 12))
+    imie_label.place(x=50, y=600)
+    imie_field = Entry(glowne_okno, font=("Arial", 12))
+    imie_field.place(x=150, y=600)
+    nazwisko_label = Label(glowne_okno, text="Nazwisko: ", font=("Arial", 12))
+    nazwisko_label.place(x=50, y=650)
+    nazwisko_field = Entry(glowne_okno, font=("Arial", 12))
+    nazwisko_field.place(x=150, y=650)
 
-    nie_dla_sedziow = Label(glowne_okno, text="Nie możesz dodać więcej sędziów!")
+    nie_dla_sedziow = Label(glowne_okno, text="Nie możesz dodać więcej sędziów!", font=("Arial", 15))
     def dopisz_sedziego():
         if len(lista) <= 19:
             imie = imie_field.get()
@@ -82,7 +82,7 @@ def losuj_sedziow(dyscyplina):
             sedzia_label.place(x=420, y=100+((len(lista)-1)*25))
         else:
             pytanie.destroy()
-            nie_dla_sedziow.place(x=100, y=450)
+            nie_dla_sedziow.place(x=50, y=550)
             dodaj.destroy()
 
     def usun_sedziego():
@@ -110,10 +110,10 @@ def losuj_sedziow(dyscyplina):
                 nie_ma = Label(glowne_okno, text="Nie ma takiego sędziego na liście!")
 
 
-    dodaj = Button(glowne_okno, text="Dodaj", height=2, width=12, command=dopisz_sedziego)
-    dodaj.place(x=100, y=525)
-    usun = Button(glowne_okno, text="Usuń", height=2, width=12, command=usun_sedziego)
-    usun.place(x=175, y=525)
+    dodaj = Button(glowne_okno, text="Dodaj", height=2, width=14, command=dopisz_sedziego, font=("Arial", 12))
+    dodaj.place(x=50, y=700)
+    usun = Button(glowne_okno, text="Usuń", height=2, width=14, command=usun_sedziego, font=("Arial", 12))
+    usun.place(x=200, y=700)
 
     def przejdz_dalej():
         nie_dla_sedziow.destroy()
@@ -136,8 +136,8 @@ def losuj_sedziow(dyscyplina):
             rozgrywki(sedziowie.lista_sedziow, dyscyplina)
 
 
-    dalej = Button(glowne_okno, text="Przejdź dalej", height=5, width=20, command=przejdz_dalej)
-    dalej.place(x=525, y=475)
+    dalej = Button(glowne_okno, text="Dalej", height=2, width=10, command=przejdz_dalej, font=("Arial", 15))
+    dalej.place(x=850, y=680)
 
 def rozgrywki(sedziowie, dyscyplina):
     if dyscyplina == "siatkowka_plazowa":
@@ -147,7 +147,7 @@ def rozgrywki(sedziowie, dyscyplina):
     if dyscyplina == "przeciaganie_liny":
         rozgrywki = Przeciaganie_liny(sedziowie)
     druzyny_label = Label(glowne_okno, text="Ile chcesz drużyn w rozgrywkach(4-8)", font=("Arial", 15))
-    druzyny_label.place(x=230, y=100)
+    druzyny_label.place(x=75, y=500)
     zla_liczba = Label()
     def get_number():
         number = int(entry.get())
@@ -156,16 +156,16 @@ def rozgrywki(sedziowie, dyscyplina):
         else:
             druzyny_label.destroy()
             zla_liczba = Label(glowne_okno, text="Podaj liczbę jeszcze raz", font=("Arial", 15))
-            zla_liczba.place(x=230, y=100)
-            ok = Button(glowne_okno, text="OK", command=get_number)
-            ok.place(x=370, y=200)
+            zla_liczba.place(x=75, y=500)
+            ok = Button(glowne_okno, text="OK", command=get_number, width=10, height=2)
+            ok.place(x=200, y=600)
 
 
-    entry = Entry(glowne_okno)
-    entry.place(x=340, y=150)
+    entry = Entry(glowne_okno, font=("Arial", 15), width=30)
+    entry.place(x=75, y=550)
 
-    ok = Button(glowne_okno, text="OK", command=get_number, width=5, height=1)
-    ok.place(x=380, y=190)
+    ok = Button(glowne_okno, text="OK", command=get_number, width=10, height=2)
+    ok.place(x=200, y=600)
 
     def generuj_druzyny(liczba_druzyn, pytanie_label, generowanie_przycisk, wpisywanie_przycisk):
         plik = open('ludzie.txt').read()
@@ -190,7 +190,7 @@ def rozgrywki(sedziowie, dyscyplina):
         generowanie_przycisk.destroy()
         wpisywanie_przycisk.destroy()
         generowanie_label = Label(glowne_okno, text="Pomyślnie wygenerowano", font=("Arial", 15), width=30)
-        generowanie_label.place(x=230, y=200)
+        generowanie_label.place(x=125, y=400)
 
         def wypisywanie_wynikow():
             dalej_przycisk.destroy()
@@ -198,32 +198,32 @@ def rozgrywki(sedziowie, dyscyplina):
             d_y = 50
             labels = []
             mecze_label = Label(glowne_okno,
-                               text=f"Mecze: ")
-            mecze_label.place(x=30, y=25)
+                               text=f"Mecze: ", font=("Arial", 15))
+            mecze_label.place(x=30, y=20)
             labels.append(mecze_label)
             for mecz in rozgrywki.mecze:
                 if dyscyplina == "siatkowka_plazowa":
-                    mecz_label = Label(glowne_okno, text=f"{mecz['druzyna1']} vs {mecz['druzyna2']}, "
+                    mecz_label = Label(glowne_okno, font=("Arial", 10), text=f"{mecz['druzyna1']} vs {mecz['druzyna2']}, "
                                                          f"sędzia: {mecz['sedzia']}, pomocniczy: {mecz['sedzia_pom1']}, {mecz['sedzia_pom2']}")
                     mecz_label.place(x=30, y=d_y)
                     labels.append(mecz_label)
                     d_y+=25
                 else:
-                    mecz_label = Label(glowne_okno, text=f"{mecz['druzyna1']} vs {mecz['druzyna2']}, "
+                    mecz_label = Label(glowne_okno, font=("Arial", 10), text=f"{mecz['druzyna1']} vs {mecz['druzyna2']}, "
                                                          f"sędzia: {mecz['sedzia']}")
                     mecz_label.place(x=30, y=d_y)
                     labels.append(mecz_label)
                     d_y += 25
             rozgrywki.symuluj_wyniki()
             d_y = 50
-            wyniki_label = Label(glowne_okno,
+            wyniki_label = Label(glowne_okno, font=("Arial", 15),
                                 text=f"Wyniki: ")
-            wyniki_label.place(x=625, y=25)
+            wyniki_label.place(x=730, y=20)
             labels.append(wyniki_label)
             for wynik in rozgrywki.wyniki:
-                wynik_label = Label(glowne_okno,
+                wynik_label = Label(glowne_okno, font=("Arial", 10),
                                    text=f"Zwyciężyła: {wynik}")
-                wynik_label.place(x=625, y=d_y)
+                wynik_label.place(x=730, y=d_y)
                 labels.append(wynik_label)
                 d_y += 25
             rozgrywki.zapisz_punkty()
@@ -287,11 +287,11 @@ def rozgrywki(sedziowie, dyscyplina):
                         polfinal_label.place(x=25, y=d_y)
                         labels.append(polfinal_label)
                         d_y += 25
-                przycisk_do_finalu.place(x=500, y=500)
+                przycisk_do_finalu.place(x=875, y=680)
 
-            przycisk_do_polfinalow = Button(text="Dalej",
-                                            command=lambda: [do_polfinalow(), przycisk_do_polfinalow.destroy()])
-            przycisk_do_polfinalow.place(x=500, y=500)
+            przycisk_do_polfinalow = Button(text="Dalej", command=lambda: [do_polfinalow(), przycisk_do_polfinalow.destroy()], height=2, width=10, font=("Arial", 15))
+            przycisk_do_polfinalow.place(x=875, y=680)
+
             def do_finalu():
                 for i in range(len(labels)):
                     labels[i].destroy()
@@ -323,9 +323,10 @@ def rozgrywki(sedziowie, dyscyplina):
 
 
             przycisk_do_finalu = Button(text="Dalej",
-                                            command=lambda: [do_finalu(), przycisk_do_finalu.destroy()])
-        dalej_przycisk = Button(text="Dalej", command=lambda: [wypisywanie_wynikow(), generowanie_label.destroy(), dalej_przycisk.destroy()])
-        dalej_przycisk.place(x=230, y=250)
+                                            command=lambda: [do_finalu(), przycisk_do_finalu.destroy()], height=2, width=10, font=("Arial", 15))
+
+        dalej_przycisk = Button(text="Dalej", font=("Arial", 15), width=14, command=lambda: [wypisywanie_wynikow(), generowanie_label.destroy(), dalej_przycisk.destroy()])
+        dalej_przycisk.place(x=210, y=450)
 
 
 
@@ -350,12 +351,12 @@ def rozgrywki(sedziowie, dyscyplina):
         entry.destroy()
         ok.destroy()
         druzyny_label.destroy()
-        pytanie_label = Label(glowne_okno, text="Generowanie / Wpisywanie", font=("Arial", 15), width=30)
-        pytanie_label.place(x=230, y=100)
-        generowanie_przycisk = Button(glowne_okno, text="Generowanie", font=("Arial", 15), width=20, command=lambda: generuj_druzyny(number, pytanie_label, generowanie_przycisk, wpisywanie_przycisk))
-        generowanie_przycisk.place(x=100, y=500)
-        wpisywanie_przycisk = Button(glowne_okno, text="Wpisywanie", font=("Arial", 15), width=20, command=lambda: wpisuj_druzyny(number))
-        wpisywanie_przycisk.place(x=470, y=500)
+        pytanie_label = Label(glowne_okno, text="Jakie chcesz drużyny?", font=("Arial", 15), width=30)
+        pytanie_label.place(x=125, y=400)
+        generowanie_przycisk = Button(glowne_okno, text="Generowane", font=("Arial", 15), width=14, command=lambda: generuj_druzyny(number, pytanie_label, generowanie_przycisk, wpisywanie_przycisk))
+        generowanie_przycisk.place(x=125, y=500)
+        wpisywanie_przycisk = Button(glowne_okno, text="Wpisywane", font=("Arial", 15), width=14, command=lambda: wpisuj_druzyny(number))
+        wpisywanie_przycisk.place(x=300, y=500)
 
         print(number)
         print(len(rozgrywki.druzyny))
@@ -368,13 +369,13 @@ def rozgrywki(sedziowie, dyscyplina):
 
 
 
-siatkowka_przycisk = Button(glowne_okno, height=3, width=25, text="Siatkówka plażowa", command=lambda: [losuj_sedziow("siatkowka_plazowa")])
-siatkowka_przycisk.place(x=100, y=450)
+siatkowka_przycisk = Button(glowne_okno, height=4, width=30, text="Siatkówka plażowa", font=("Arial", 15), command=lambda: [losuj_sedziow("siatkowka_plazowa")])
+siatkowka_przycisk.place(x=0, y=625)
 
-dwa_ognie_przycisk = Button(glowne_okno, height=3, width=25, text="Dwa ognie", command=lambda: [losuj_sedziow("dwa_ognie")])
-dwa_ognie_przycisk.place(x=300, y=450)
+dwa_ognie_przycisk = Button(glowne_okno, height=4, width=31, text="Dwa ognie", font=("Arial", 15), command=lambda: [losuj_sedziow("dwa_ognie")])
+dwa_ognie_przycisk.place(x=336, y=625)
 
-przeciaganie_liny_przycisk = Button(glowne_okno, height=3, width=25, text="Przeciąganie liny", command=lambda: [losuj_sedziow("przeciaganie_liny")])
-przeciaganie_liny_przycisk.place(x=500, y=450)
+przeciaganie_liny_przycisk = Button(glowne_okno, height=4, width=30, text="Przeciąganie liny",  font=("Arial", 15), command=lambda: [losuj_sedziow("przeciaganie_liny")])
+przeciaganie_liny_przycisk.place(x=685, y=625)
 
 glowne_okno.mainloop()
