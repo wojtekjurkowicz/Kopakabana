@@ -1,7 +1,9 @@
-from tkinter import *
-from zawodnicy import Druzyna, Sedziowie, Sedzia
-from rozgrywki import Siatkowka_plazowa, Dwa_ognie, Przeciaganie_liny
+import pickle
 import random
+from tkinter import *
+
+from rozgrywki import Siatkowka_plazowa, Dwa_ognie, Przeciaganie_liny
+from zawodnicy import Druzyna, Sedziowie, Sedzia, Zawodnik
 
 glowne_okno = Tk()
 glowne_okno.resizable(width=False, height=False)
@@ -15,16 +17,38 @@ bg_siatkowka = PhotoImage(file="siata.ppm")
 bg_dwa_ognie = PhotoImage(file="zbijak.ppm")
 bg_przeciaganie_liny = PhotoImage(file="lina.ppm")
 
-def losuj_sedziow(dyscyplina):
+
+def wybor(dyscyplina):
     if dyscyplina == "siatkowka_plazowa":
         bg_label.configure(image=bg_siatkowka)
     if dyscyplina == "dwa_ognie":
         bg_label.configure(image=bg_dwa_ognie)
     if dyscyplina == "przeciaganie_liny":
         bg_label.configure(image=bg_przeciaganie_liny)
+
     siatkowka_przycisk.destroy()
     dwa_ognie_przycisk.destroy()
     przeciaganie_liny_przycisk.destroy()
+
+    wybor_label = Label(glowne_okno, height=3,  width=35, text="Czy chcesz wczytać dane z pliku?", font=("Arial", 15))
+    wybor_label.place(x=290, y=300)
+    wpisz_przycisk = Button(glowne_okno, text="Wpisz/wygeneruj nowe dane", font=("Arial", 15), command=lambda: [losuj_sedziow(dyscyplina), wybor_label.destroy(), wczytaj_przycisk.destroy(), wpisz_przycisk.destroy()])
+    wpisz_przycisk.place(x=350, y=390)
+    wczytaj_przycisk = Button(glowne_okno, text="Wczytaj dane", font=("Arial", 15), command=lambda: [wczytywanie_z_pliku(dyscyplina), wybor_label.destroy(), wczytaj_przycisk.destroy(), wpisz_przycisk.destroy()])
+    wczytaj_przycisk.place(x=410, y=440)
+
+def wczytywanie_z_pliku(dyscyplina):
+    with open("dane.pickle", 'rb') as plik:
+        dane = pickle.load(plik)
+        print(dane)
+        druzyny = dane["druzyny"]
+        mecze = dane["mecze"]
+        wyniki = dane["wyniki"]
+        polfinaly = dane["polfinaly"]
+        polfinaly = dane["final"]
+        zwyciezca = dane["zwyciezca"]
+
+def losuj_sedziow(dyscyplina):
     plik = open('sedziowie.txt').read()
     plik = plik.split("\n")
     lista_sedziow = []
@@ -167,6 +191,88 @@ def rozgrywki(sedziowie, dyscyplina):
     ok = Button(glowne_okno, text="OK", command=get_number, width=10, height=2)
     ok.place(x=200, y=600)
 
+    def inne_wpisuj_druzyny(liczba_druzyn, pytanie_label, generowanie_przycisk, wpisywanie_przycisk):    # numero 1
+        pytanie_label.destroy()
+        generowanie_przycisk.destroy()
+        wpisywanie_przycisk.destroy()
+        napotem_label = []
+        lista_druzyn = [] # DO ZROBIENIA JESZCZE ALE NA LUZIE MYŚLĘ
+        powpisuj_druzyny(0, liczba_druzyn, napotem_label)
+
+    def przycisk(imie, nazwisko, druzyna, numerzawodnika, napotem_label, numerdruzyny, liczba_druzyn):
+        jakieimie = imie.get()
+        jakienazwisko = nazwisko.get()
+        zawodnik_label = Label(glowne_okno, text=f"{jakieimie} {jakienazwisko}", font=("Arial", 10))
+        zawodnik_label.place(x=20, y=70 + 30 * numerzawodnika)
+        napotem_label.append(zawodnik_label)
+        jakizawodnik = Zawodnik(jakieimie, jakienazwisko)
+        druzyna.zglos_zawodnika(jakizawodnik)
+        dodajdruzyne(numerzawodnika + 1, napotem_label, druzyna, numerdruzyny, liczba_druzyn)
+
+    def dodajdruzyne(numerzawodnika, napotem_label, druzyna, numerdruzyny, liczba_druzyn):             # numero 5
+        if numerzawodnika <= 5:
+            ktoryto = Label(glowne_okno, text=f"Zawodnik Nr.{numerzawodnika + 1}", font=("Arial", 18))
+            ktoryto.place(x=480, y=50)
+            napotem_label.append(ktoryto)
+            imie_label = Label(glowne_okno, text=f"Podaj imię", font=("Arial", 15))
+            imie_label.place(x=415, y=100)
+            imie = Entry(glowne_okno, width=20)
+            imie.place(x=400, y=140)
+            nazwisko_label = Label(glowne_okno, text=f"Podaj nazwisko", font=("Arial", 15))
+            nazwisko_label.place(x=575, y=100)
+            nazwisko = Entry(glowne_okno, width=20)
+            nazwisko.place(x=582, y=140)
+            napotem_label.append(imie_label)
+            napotem_label.append(imie)
+            napotem_label.append(nazwisko_label)
+            napotem_label.append(nazwisko)
+            przyciskzawodnik = Button(glowne_okno, text="Zatwierdź zawodnika"
+                                    , command=lambda: przycisk(imie, nazwisko, druzyna, numerzawodnika, napotem_label,
+                                                               numerdruzyny, liczba_druzyn))
+            przyciskzawodnik.place(x=450, y=180)
+            napotem_label.append(przyciskzawodnik)
+        else:
+            powpisuj_druzyny(numerdruzyny + 1, liczba_druzyn, napotem_label)
+
+    def dodajzawodnikow(liczba_druzyn, napotem_label, jakanazwa, numerdruzyny):        # numero 4
+        for k in napotem_label:
+            k.destroy()
+        druzyna = Druzyna(jakanazwa)
+        nazwadruzyny = Label(glowne_okno, text=f"Nazwa drużyny : {jakanazwa}", font=("Arial", 12))
+        nazwadruzyny.place(x=20, y=20)
+        podnazwa_label = Label(glowne_okno, text="Lista zawodników :", font=("Arial", 10))
+        podnazwa_label.place(x=20, y=45)
+        napotem_label.append(podnazwa_label)
+        napotem_label.append(nazwadruzyny)
+
+        if numerdruzyny <= liczba_druzyn:
+            dodajdruzyne(0, napotem_label, druzyna, numerdruzyny, liczba_druzyn)
+
+    def dodajnazwedruzyny(liczba_druzyn, napotem_label, nazwa, numerdruzyny):        # numero 3
+        jakanazwa = nazwa.get()
+        print(jakanazwa)
+        dodajzawodnikow(liczba_druzyn, napotem_label, jakanazwa, numerdruzyny)
+
+    def powpisuj_druzyny(numerdruzyny, liczba_druzyn, napotem_label):        # numero 2
+        if numerdruzyny < liczba_druzyn:
+            for k in napotem_label:
+                k.destroy()
+            nazwa = Entry(glowne_okno, width=60)
+            nazwa.place(x=220, y=300)
+            napotem_label.append(nazwa)
+            nazwa_label = Label(glowne_okno, text=f"Podaj nazwę drużyny Nr.{numerdruzyny + 1}:", font=("Arial", 25))
+            nazwa_label.place(x=210, y=250)
+            napotem_label.append(nazwa_label)
+            przyciskdruzyna = Button(glowne_okno, text="Zatwierdź nazwę drużyny"
+                                    , command=lambda: dodajnazwedruzyny(liczba_druzyn, napotem_label, nazwa, numerdruzyny))
+            przyciskdruzyna.place(x=325, y=360)
+            napotem_label.append(przyciskdruzyna)
+        else:
+            for w in napotem_label:
+                w.destroy()
+            noisuper = Label(glowne_okno, text="Zawodnicy zostali zapisani :)", font=("Arial", 30))
+            noisuper.place(x=40, y=500)
+            napotem_label.append(noisuper)
     def generuj_druzyny(liczba_druzyn, pytanie_label, generowanie_przycisk, wpisywanie_przycisk):
         plik = open('ludzie.txt').read()
         plik = plik.split("\n")
@@ -230,6 +336,16 @@ def rozgrywki(sedziowie, dyscyplina):
             rozgrywki.organizuj_polfinaly()
             rozgrywki.organizuj_final()
             print(rozgrywki.zwyciezca)
+            status = {
+                "druzyny": rozgrywki.druzyny,
+                "mecze": rozgrywki.mecze,
+                "wyniki": rozgrywki.wyniki,
+                "polfinaly": rozgrywki.polfinaly,
+                "final": rozgrywki.final,
+                "zwyciezca": rozgrywki.zwyciezca
+            }
+            with open("dane.pickle", "wb") as plik:
+                pickle.dump(status, plik)
             def do_polfinalow():
                 for i in range(len(labels)):
                     labels[i].destroy()
@@ -355,7 +471,7 @@ def rozgrywki(sedziowie, dyscyplina):
         pytanie_label.place(x=125, y=400)
         generowanie_przycisk = Button(glowne_okno, text="Generowane", font=("Arial", 15), width=14, command=lambda: generuj_druzyny(number, pytanie_label, generowanie_przycisk, wpisywanie_przycisk))
         generowanie_przycisk.place(x=125, y=500)
-        wpisywanie_przycisk = Button(glowne_okno, text="Wpisywane", font=("Arial", 15), width=14, command=lambda: wpisuj_druzyny(number))
+        wpisywanie_przycisk = Button(glowne_okno, text="Wpisywane", font=("Arial", 15), width=14, command=lambda: inne_wpisuj_druzyny(number, pytanie_label, generowanie_przycisk, wpisywanie_przycisk))
         wpisywanie_przycisk.place(x=300, y=500)
 
         print(number)
@@ -369,13 +485,13 @@ def rozgrywki(sedziowie, dyscyplina):
 
 
 
-siatkowka_przycisk = Button(glowne_okno, height=4, width=30, text="Siatkówka plażowa", font=("Arial", 15), command=lambda: [losuj_sedziow("siatkowka_plazowa")])
+siatkowka_przycisk = Button(glowne_okno, height=4, width=30, text="Siatkówka plażowa", font=("Arial", 15), command=lambda: [wybor("siatkowka_plazowa")])
 siatkowka_przycisk.place(x=0, y=625)
 
-dwa_ognie_przycisk = Button(glowne_okno, height=4, width=31, text="Dwa ognie", font=("Arial", 15), command=lambda: [losuj_sedziow("dwa_ognie")])
+dwa_ognie_przycisk = Button(glowne_okno, height=4, width=31, text="Dwa ognie", font=("Arial", 15), command=lambda: [wybor("dwa_ognie")])
 dwa_ognie_przycisk.place(x=336, y=625)
 
-przeciaganie_liny_przycisk = Button(glowne_okno, height=4, width=30, text="Przeciąganie liny",  font=("Arial", 15), command=lambda: [losuj_sedziow("przeciaganie_liny")])
+przeciaganie_liny_przycisk = Button(glowne_okno, height=4, width=30, text="Przeciąganie liny",  font=("Arial", 15), command=lambda: [wybor("przeciaganie_liny")])
 przeciaganie_liny_przycisk.place(x=685, y=625)
 
 glowne_okno.mainloop()
